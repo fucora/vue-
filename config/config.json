@@ -1,0 +1,10 @@
+{
+  "servers": [{
+    "host": "10.17.148.24",
+    "user": "root",
+    "port": "22",
+    "password":"Midea@123",
+    "remoteDir": "/tmp/command",
+    "localDir": "dist/"
+  }]
+}

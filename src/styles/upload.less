@@ -1,0 +1,72 @@
+/*开始企业认证上传样式*/
+.upload-item {
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    width: 100%;
+    background: #fbfbfb;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      border-color: #409eff;
+    }
+
+    .upload-icon {
+      padding-top: 20px;
+      height: 120px;
+      color: #999;
+      box-sizing: border-box;
+    }
+  }
+}
+/*结束企业认证上传样式*/
+
+/*开始上传组件列表展示图标样式*/
+.el-upload-list {
+  .el-icon-document:before {
+    display: inline-block;
+    content: '';
+    width: 14px;
+    height: 14px;
+    background: url('../assets/img/filetype_doc@2x.png') no-repeat center center;
+    background-size: cover;
+    vertical-align: middle;
+  }
+}
+/*结束上传组件列表展示图标样式*/
+
+/*iot图片上传和预览的样式开始*/
+.upload-btn-img {
+  .el-upload-list__item-name:focus,
+   .el-upload-list__item.is-ready:focus {
+    outline: none;
+  }
+   .el-upload.el-upload--picture-card {
+    border: none;
+    height: auto;
+  }
+   .el-upload-list--picture-card .el-upload-list__item-name {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    display: inline;
+  }
+   .el-upload__text {
+    margin-top: -100px;
+  }
+   .el-upload-list__item.is-ready {
+    transition: all 0s cubic-bezier(0.55, 0, 0.1, 1);
+    position: relative;
+    overflow: inherit;
+  }
+   .el-upload-list.el-upload-list--picture-card {
+    height: 100%;
+    .el-upload-list__item.is-ready {
+      // width: 100%;
+      height: 100%;
+    }
+  }
+}
+/*iot图片上传和预览的样式结束*/

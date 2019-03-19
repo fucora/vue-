@@ -1,0 +1,182 @@
+/*
+* 媒体查询
+*/
+/*============  start: 滚动条 ===========*/
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+/* 滚动条两端的按钮 */
+::-webkit-scrollbar-button {
+  display: none;
+}
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f1f1f1;
+}
+/* 滚动的滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #cdcdcd;
+}
+/* 边角 */
+::-webkit-scrollbar-corner {
+  display: none;
+}
+/* 右下角拖动块 */
+::-webkit-resizer {
+  display: none;
+}
+/*============  end: 滚动条 ===========*/
+/*============  start: 浮动 ===========*/
+/*清除浮动开始*/
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.clearfix {
+  zoom: 1;
+}
+/*============  end: 浮动 ===========*/
+/*============  start: 辅助类样式 ===========*/
+small,
+.small {
+  font-size: 85%;
+}
+mark,
+.mark {
+  background-color: #F7BA2A;
+  padding: .2em;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-justify {
+  text-align: justify;
+}
+.text-nowrap {
+  white-space: nowrap;
+}
+.text-lowercase {
+  text-transform: lowercase;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
+.text-muted {
+  color: #666666;
+}
+.text-primary {
+  color: #2d8cf0;
+}
+a.text-primary:hover,
+a.text-primary:focus {
+  color: #1072da;
+}
+.text-success {
+  color: #13CE66;
+}
+a.text-success:hover,
+a.text-success:focus {
+  color: #0f9f4f;
+}
+.text-info {
+  color: #21b8d5;
+}
+a.text-info:hover,
+a.text-info:focus {
+  color: #1a92a9;
+}
+.text-warning {
+  color: #F7BA2A;
+}
+a.text-warning:hover,
+a.text-warning:focus {
+  color: #e5a409;
+}
+.text-danger {
+  color: #FF4949;
+}
+a.text-danger:hover,
+a.text-danger:focus {
+  color: #ff1616;
+}
+.bg-primary {
+  color: #fff;
+  background-color: #2d8cf0;
+}
+a.bg-primary:hover,
+a.bg-primary:focus {
+  background-color: #1072da;
+}
+.bg-success {
+  background-color: #13CE66;
+}
+a.bg-success:hover,
+a.bg-success:focus {
+  background-color: #0f9f4f;
+}
+.bg-info {
+  background-color: #21b8d5;
+}
+a.bg-info:hover,
+a.bg-info:focus {
+  background-color: #1a92a9;
+}
+.bg-warning {
+  background-color: #F7BA2A;
+}
+a.bg-warning:hover,
+a.bg-warning:focus {
+  background-color: #e5a409;
+}
+.bg-danger {
+  background-color: #FF4949;
+}
+a.bg-danger:hover,
+a.bg-danger:focus {
+  background-color: #ff1616;
+}
+/*============  end: 辅助类样式 ===========*/
+/*中心版式宽度*/
+.center-wrapper {
+  max-width: 1280px;
+}
+/*切换路由页面过渡效果*/
+.fadePage-enter,
+.fadePage-leave-to {
+  opacity: 0;
+}
+.fadePage-enter-active,
+.fadePage-leave-active {
+  transition: opacity .3s;
+}
+/* 页面element下拉的样式 */
+.el-popper[x-placement^=bottom] {
+  margin-top: 4px!important;
+}
+.el-popper[x-placement^=top] {
+  margin-bottom: 4px!important;
+}
+.el-popper[x-placement^=bottom] .popper__arrow {
+  display: none;
+}
+.el-popper[x-placement^=top] .popper__arrow {
+  display: none;
+}
+.el-date-editor--daterange {
+  width: 250px !important;
+}
