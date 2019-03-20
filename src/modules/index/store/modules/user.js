@@ -90,17 +90,17 @@ const user = {
       commit('SET_TOKEN', result.accessToken);
       commit('SET_USERINFO', result.user);
       this.commit('saveGetUserInfo', result.user);
-      // userInfo.account.trim();
-      // return new Promise((resolve, reject) => {
-      //   API.loginByUsername(userInfo).then(response => {
-      //     const data = response.result;
-      //     commit('SET_TOKEN', data.accessToken);
-      //     commit('SET_USERINFO', data.user);
-      //     resolve(data);
-      //   }).catch(error => {
-      //     reject(error);
-      //   });
-      // });
+      userInfo.account.trim();
+      return new Promise((resolve, reject) => {
+        API.loginByUsername(userInfo).then(response => {
+          const data = response.result;
+          commit('SET_TOKEN', data.accessToken);
+          commit('SET_USERINFO', data.user);
+          resolve(data);
+        }).catch(error => {
+          reject(error);
+        });
+      });
     },
     getMeauAuthed({ commit, state }, id) {
       return new Promise((resolve, reject) => {

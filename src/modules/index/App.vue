@@ -1,6 +1,5 @@
 <template>
   <div id="app" v-on:click="myClick">
-    index
     <router-view></router-view>
   </div>
 </template>

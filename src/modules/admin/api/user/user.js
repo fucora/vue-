@@ -15,7 +15,7 @@ const API = {
   // 登陆
   loginByUsername: (params) => {
     return request({
-      url: `${APPLICATION_NAME}/front/login`,
+      url: `${APPLICATION_NAME}/login`,
       method: 'post',
       data: params
     });

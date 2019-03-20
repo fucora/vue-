@@ -1,6 +1,5 @@
 <template>
   <div id="app" v-on:click="myClick">
-    admin
     <router-view></router-view>
   </div>
 </template>

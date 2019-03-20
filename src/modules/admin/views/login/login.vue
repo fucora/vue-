@@ -4,7 +4,7 @@
     <div class="login-container center-wrapper">
       <el-row class="login-main">
         <el-col :span="15" class="login-left">
-          <h2 class="title">美的IoT开放平台</h2>
+          <h2 class="title">美的IoT开放平台     admin</h2>
           <p class="desc">实现从终端、云到服务，实现真正的开放，与各合作伙伴将建立起耦合式、嵌入式的合作关系，相互赋能，彻底打破信息孤岛，实现生态共建、共享资源、开放系统，与各行业合作伙伴共同构筑用户智慧生活生态</p>
         </el-col>
         <el-col :span="9" class="login-right">
@@ -91,7 +91,7 @@ export default {
       let md5Psw = Encrypt(this.loginData.password);
       // console.log(md5Psw);
       let params = {
-        email: this.loginData.account,
+        account: this.loginData.account,
         password: md5Psw
         // remember: this.loginData.remember
       };
@@ -101,12 +101,12 @@ export default {
           //         store.dispatch('FedLogOut').then(() => {
           //   location.reload(); // 为了重新实例化vue-router对象 避免bug
           // });
-        this.$router.push({name: '开发者平台系统管理'});
+        // this.$router.push({name: '开发者平台系统管理'});
         await this.$store.dispatch('LoginByUsername', params).then((res) => {
           // this.$store.dispatch('getMeauAuthed', {uid: res.user.uid}).then(res => {
           // });
         });
-        // this.$router.push({name: '开发者平台系统管理'});
+        this.$router.push({name: '开发者平台系统管理'});
       } catch (e) {}
     },
     // handleLogin() {

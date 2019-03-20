@@ -86,21 +86,23 @@ const user = {
     LoginByUsername({ commit }, userInfo) {
       debugger;
 
-      let result = {'accessToken': 'XybhVtxLq1lomiGNl05_KHnMuRQHM09A', 'user': {'address': '', 'createTime': null, 'departmentId': 13, 'departmentName': '集团IOT', 'gender': '', 'headImgUrl': 'https://fcmms.midea.com/ccrm-sit/userHeadImg/defaultHeadImg.png', 'mobile': '13800138111', 'name': '马云', 'nickName': '马云', 'password': '', 'property': {'isContacter': true, 'isGrouper': false, 'isMipAuth': true, 'isDeveloper': true}, 'uid': '9b2a3f9135f34817a0423bef60774cfa'}};
-      commit('SET_TOKEN', result.accessToken);
-      commit('SET_USERINFO', result.user);
-      this.commit('saveGetUserInfo', result.user);
-      // userInfo.account.trim();
-      // return new Promise((resolve, reject) => {
-      //   API.loginByUsername(userInfo).then(response => {
-      //     const data = response.result;
-      //     commit('SET_TOKEN', data.accessToken);
-      //     commit('SET_USERINFO', data.user);
-      //     resolve(data);
-      //   }).catch(error => {
-      //     reject(error);
-      //   });
-      // });
+      // let result = {'accessToken': 'XybhVtxLq1lomiGNl05_KHnMuRQHM09A', 'user': {'address': '', 'createTime': null, 'departmentId': 13, 'departmentName': '集团IOT', 'gender': '', 'headImgUrl': 'https://fcmms.midea.com/ccrm-sit/userHeadImg/defaultHeadImg.png', 'mobile': '13800138111', 'name': '马云', 'nickName': '马云', 'password': '', 'property': {'isContacter': true, 'isGrouper': false, 'isMipAuth': true, 'isDeveloper': true}, 'uid': '9b2a3f9135f34817a0423bef60774cfa'}};
+      // commit('SET_TOKEN', result.accessToken);
+      // commit('SET_USERINFO', result.user);
+      // this.commit('saveGetUserInfo', result.user);
+      userInfo.account.trim();
+      return new Promise((resolve, reject) => {
+        API.loginByUsername(userInfo).then(response => {
+          const data = response.result;
+          commit('SET_TOKEN', data.accessToken);
+          commit('SET_USERINFO', data.user);
+
+          this.commit('saveGetUserInfo', data.user);
+          resolve(data);
+        }).catch(error => {
+          reject(error);
+        });
+      });
     },
     getMeauAuthed({ commit, state }, id) {
       return new Promise((resolve, reject) => {
