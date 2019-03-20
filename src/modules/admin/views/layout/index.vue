@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import pageHeader from '@/components/awesome/tab-header/page-header';
+import pageHeader from '@/components/awesome/tab-header/admin-header';
 // import HeaderHome from './../developerplatform/loyouts/header';
 import layout from '@/components/layout/layout1';
 export default {

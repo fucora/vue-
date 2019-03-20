@@ -24,9 +24,9 @@
         <transition name="slideInfo">
           <div class="hide-user-info" v-show="isShow" @click.stop>
             <ul class="user-info-list">
-              <li class="list-item">
+              <!-- <li class="list-item">
                 <a href="./developInfo.html">开发者信息</a>
-              </li>
+              </li> -->
               <li class="list-item">
                 <a href="javascript:void(0)">退出</a>
               </li>

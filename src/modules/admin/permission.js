@@ -9,10 +9,8 @@ import commonFun from '@/common/js/func';
 const whiteList = ['/login', '/platformIntroduction', '/register', '/forget', '/developGuideTop']; // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  console.log(getToken());
-  debugger;
 
-  if (getToken()) {
+  if (getToken('admin-accessToken')) {
     // debugger;
     if (to.path === '/login') {
       // debugger;

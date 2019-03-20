@@ -10,7 +10,7 @@ const user = {
     user: '',
     status: '',
     code: '',
-    token: getToken(),
+    token: getToken('admin-accessToken'),
     name: '',
     avatar: '',
     introduction: '',
@@ -26,58 +26,58 @@ const user = {
   },
 
   mutations: {
-    SET_CODE: (state, code) => {
-      state.code = code;
-    },
+    // SET_CODE: (state, code) => {
+    //   state.code = code;
+    // },
     SET_TOKEN: (state, token) => {
       state.token = token;
-      setToken(token);
+      setToken('admin-accessToken', token);
     },
-    SET_INTRODUCTION: (state, introduction) => {
-      state.introduction = introduction;
-    },
-    SET_SETTING: (state, setting) => {
-      state.setting = setting;
-    },
-    SET_STATUS: (state, status) => {
-      state.status = status;
-    },
-    SET_NAME: (state, name) => {
-      state.name = name;
-    },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar;
-    },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles;
-      ls.addItem('roles', roles);
-    },
-    SET_BUTTONFLAG: (state, buttonFlag) => {
-      const list = [];
-      for (var i = 0; i < buttonFlag.length; i++) {
-        if (buttonFlag[i].authed) {
-          list.push(buttonFlag[i].permissionTag);
-        }
-      }
-      state.buttonFlag = list;
-      ls.addItem('buttonFlag', list);
-    },
+    // SET_INTRODUCTION: (state, introduction) => {
+    //   state.introduction = introduction;
+    // },
+    // SET_SETTING: (state, setting) => {
+    //   state.setting = setting;
+    // },
+    // SET_STATUS: (state, status) => {
+    //   state.status = status;
+    // },
+    // SET_NAME: (state, name) => {
+    //   state.name = name;
+    // },
+    // SET_AVATAR: (state, avatar) => {
+    //   state.avatar = avatar;
+    // },
+    // SET_ROLES: (state, roles) => {
+    //   state.roles = roles;
+    //   ls.addItem('roles', roles);
+    // },
+    // SET_BUTTONFLAG: (state, buttonFlag) => {
+    //   const list = [];
+    //   for (var i = 0; i < buttonFlag.length; i++) {
+    //     if (buttonFlag[i].authed) {
+    //       list.push(buttonFlag[i].permissionTag);
+    //     }
+    //   }
+    //   state.buttonFlag = list;
+    //   ls.addItem('buttonFlag', list);
+    // },
     SET_USERINFO: (state, userInfo) => {
       state.userInfo = userInfo;
-      ls.addItem('userInfo', userInfo);
+      ls.addItem('admin-userInfo', userInfo);
     },
     saveGetUserInfo: (state, saveGetUserInfo) => {
       state.saveGetUserInfo = saveGetUserInfo;
-      ls.addItem('saveGetUserInfo', saveGetUserInfo);
+      ls.addItem('admin-saveGetUserInfo', saveGetUserInfo);
     },
-    equipmentUserStatisticsList(state, msg) {
-      state.equipmentUserStatistics = msg;
-      ls.addItem('equipmentUserStatistics', msg);
-    },
+    // equipmentUserStatisticsList(state, msg) {
+    //   state.equipmentUserStatistics = msg;
+    //   ls.addItem('equipmentUserStatistics', msg);
+    // },
     setRouterPath(state, path) {
       // debugger;
       state.routerPath = path;
-      ls.addItem('routerPath', path);
+      ls.addItem('admin-routerPath', path);
     }
   },
 
@@ -127,7 +127,7 @@ const user = {
           // commit('SET_TOKEN', '');
           // commit('SET_ROLES', []);
           commit('SET_USERINFO', '');
-          removeToken();
+          removeToken('admin-accessToken');
           ls.removeItem('userInfo');
           ls.removeItem('roles');
           ls.removeItem('userInfoNickName');
@@ -225,7 +225,9 @@ const user = {
         // ls.removeItem('roles');
 
         commit('SET_USERINFO', '');
-        removeToken();
+        removeToken('admin-accessToken');
+        removeToken('accessToken');
+
         ls.removeItem('userInfo');
         ls.removeItem('roles');
         ls.removeItem('userInfoNickName');

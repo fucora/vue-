@@ -31,7 +31,7 @@ const user = {
     },
     SET_TOKEN: (state, token) => {
       state.token = token;
-      setToken(token);
+      setToken('accessToken', token);
     },
     SET_INTRODUCTION: (state, introduction) => {
       state.introduction = introduction;
@@ -223,7 +223,8 @@ const user = {
         // ls.removeItem('roles');
 
         commit('SET_USERINFO', '');
-        removeToken();
+        removeToken('admin-accessToken');
+        removeToken('accessToken');
         ls.removeItem('userInfo');
         ls.removeItem('roles');
         ls.removeItem('userInfoNickName');
