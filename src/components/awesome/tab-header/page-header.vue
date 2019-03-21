@@ -152,7 +152,8 @@ export default {
   left: 0;
   width: 100%;
   background: #1d233c;
-  z-index: 2001;
+  z-index: 2000;
+  // 覆盖
 }
 .page-header-container {
   height: 65px;

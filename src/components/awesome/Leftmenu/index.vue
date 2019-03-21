@@ -122,7 +122,7 @@ export default {
     // 获取侧边栏菜单
     getMenus() {
       let path = this.getRootPath(this.$router.history.current.path);
-      debugger;
+      // debugger;
       let isAuthHidden = '';
       // debugger;
       // if (this.$store.getters.userInfo.property) {
