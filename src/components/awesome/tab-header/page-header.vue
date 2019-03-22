@@ -1,17 +1,46 @@
 <template>
   <div class="page-header">
     <div class="page-header-container center-wrapper clearfix">
-      <a class="logo-wrapper pull-left" @click="gotHome">
-        <img class="logo" src="../../../assets/img/logo@2x.png" alt="图片不存在" width="43" height="29">
+      <a
+        class="logo-wrapper pull-left"
+        @click="gotHome"
+      >
+        <img
+          class="logo"
+          src="../../../assets/img/logo@2x.png"
+          alt="图片不存在"
+          width="43"
+          height="29"
+        >
         <span style="fontSize:18px">开发者中心</span>
       </a>
       <div class="page-nav pull-left">
-        <div class="page-nav-item" :class="{'nav-active': navActive === pItem.name}" v-for="(pItem, index) in hNavData" :key="index" @click="handleNavClick(pItem)">
-          <span class="level-nav-item" style="display:inline-block;padding: 0 28px">{{pItem.name}}</span>
+        <div
+          class="page-nav-item"
+          :class="{'nav-active': navActive === pItem.name}"
+          v-for="(pItem, index) in hNavData"
+          :key="index"
+          @click="handleNavClick(pItem)"
+        >
+          <span
+            class="level-nav-item"
+            style="display:inline-block;padding: 0 28px"
+          >{{pItem.name}}</span>
         </div>
       </div>
-      <div class="user-info-wrapper pull-right" v-if="(nickName||mobile)&&getToken" @mouseleave="isShow = false">
-        <div class="user-info-content" @click.stop="isShow = !isShow">
+             <!-- @mouseleave="isShow = false" -->
+      <div
+        class="user-info-wrapper pull-right"
+        v-if="(nickName||mobile)&&getToken"
+
+        @mouseleave="mouseleave"
+      >
+             <!-- @click.stop="isShow = !isShow" -->
+        <div
+          class="user-info-content"
+
+          @mouseenter="enter"
+        >
           <span v-if="nickName">
             <span class="user-info">{{nickName}}</span>
             <!-- <span class="user-info" v-if="roleName">({{roleName}})</span> -->
@@ -20,16 +49,32 @@
             <span class="user-info">{{mobile}}</span>
             <!-- <span class="user-info" v-if="roleName">({{roleName}})</span> -->
           </span>
-          <span class="icon-down" :class="{rotate: isShow}"></span>
+          <span
+            class="icon-down"
+            :class="{rotate: isShow}"
+          ></span>
         </div>
         <span class="icon-bell"></span>
         <transition name="slideInfo">
-          <div class="hide-user-info" v-show="isShow" @click.stop>
+                      <!-- v-show="isShow" -->
+          <div
+            class="hide-user-info"
+            v-show="isShow"
+            @click.stop
+            @mouseenter="sover"
+            @mouseleave="sout"
+          >
             <ul class="user-info-list">
               <li class="list-item">
-                <a href="javascript:void(0)" @click="goToInfo">开发者信息</a>
+                <a
+                  href="javascript:void(0)"
+                  @click="goToInfo"
+                >修改用户密码</a>
               </li>
-              <li class="list-item" @click="handleLogout">
+              <li
+                class="list-item"
+                @click="handleLogout"
+              >
                 <a href="javascript:void(0)">退出</a>
               </li>
             </ul>
@@ -37,6 +82,32 @@
         </transition>
       </div>
     </div>
+    <el-dialog
+      title="修改用户密码"
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <div>
+        <el-input
+          type="text"
+          v-model="password"
+          @blur="passworInput"
+        />
+      </div>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="save"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -53,6 +124,9 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
+      password: '',
+
       getToken: getToken(),
       nickName: '', // 昵称
       roleName: '', // 角色
@@ -123,7 +197,57 @@ export default {
 
     // 跳转开发者信息
     goToInfo() {
-      this.$router.push({ path: '/info' });
+      this.dialogVisible = true;
+      // this.$router.push({ path: '/info' });
+    },
+    handleClose() {
+      this.dialogVisible = false;
+      this.password = '';
+    },
+    passworInput(e) {
+      // console.log(e.target.value);
+       let regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      if (!regPsw.test(e.target.value)) {
+          this.$message({
+          type: 'warning',
+          message: '请输入长度为6-16为数字字母组合'
+        });
+      }
+      // debugger;
+    },
+    save() {
+      if (!this.password) {
+        this.$message({
+          type: 'warning',
+          message: '不能为空'
+        });
+        return;
+      }
+      let regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      if (!regPsw.test(this.password)) {
+          this.$message({
+          type: 'warning',
+          message: '请输入长度为6-16为数字字母组合'
+        });
+        return;
+      }
+      this.dialogVisible = false;
+      console.log(this.password);
+    },
+    enter() {
+      this.isShow = true;
+    },
+    mouseleave() {
+      this._timer = setTimeout(() => {
+         this.isShow = false;
+      }, 150);
+    },
+    sover() {
+            // 清除定时器不然定时器继续执行
+      clearTimeout(this._timer);
+    },
+    sout() {
+      this.isShow = false;
     },
 
     // 跳转介绍页
@@ -152,7 +276,8 @@ export default {
   left: 0;
   width: 100%;
   background: #1d233c;
-  z-index: 2001;
+  z-index: 2000;
+  // 覆盖
 }
 .page-header-container {
   height: 65px;
@@ -195,7 +320,7 @@ export default {
   .icon-down {
     width: 20px;
     height: 20px;
-    background: url('../../../assets/img/doc_arrow2@2x.png') no-repeat center
+    background: url("../../../assets/img/doc_arrow2@2x.png") no-repeat center
       center;
     background-size: cover;
     -webkit-transform: rotate(0deg);
@@ -216,7 +341,7 @@ export default {
   width: 14px;
   height: 18px;
   margin-top: -9px;
-  background: url('../../../assets/img/msg@2x.png') no-repeat center center;
+  background: url("../../../assets/img/msg@2x.png") no-repeat center center;
   background-size: cover;
 }
 .hide-user-info {

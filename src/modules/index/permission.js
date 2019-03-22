@@ -10,7 +10,7 @@ const whiteList = ['/login', '/platformIntroduction', '/register', '/forget', '/
 router.beforeEach((to, from, next) => {
   NProgress.start();
   console.log(getToken());
-  debugger;
+  // debugger;
 
   if (getToken()) {
     // debugger;
