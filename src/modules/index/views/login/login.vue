@@ -101,12 +101,12 @@ export default {
           //         store.dispatch('FedLogOut').then(() => {
           //   location.reload(); // 为了重新实例化vue-router对象 避免bug
           // });
-        this.$router.push({name: '开发者平台系统管理'});
+        // this.$router.push({name: '开发者平台系统管理'});
         await this.$store.dispatch('LoginByUsername', params).then((res) => {
           // this.$store.dispatch('getMeauAuthed', {uid: res.user.uid}).then(res => {
           // });
         });
-        // this.$router.push({name: '开发者平台系统管理'});
+        this.$router.push({name: '开发者平台系统管理'});
       } catch (e) {}
     },
     // handleLogin() {

@@ -94,10 +94,10 @@ export default {
       let lsUserInfo = JSON.parse(ls.getItem('admin-userInfo'));
       // debugger;
       if (
-        (tempUserInfo && tempUserInfo.account) ||
-        (lsUserInfo && lsUserInfo.account)
+        (tempUserInfo && tempUserInfo.email) ||
+        (lsUserInfo && lsUserInfo.email)
       ) {
-        this.mobile = tempUserInfo.account || lsUserInfo.account;
+        this.mobile = tempUserInfo.email || lsUserInfo.email;
         // debugger;
       }
       if (
