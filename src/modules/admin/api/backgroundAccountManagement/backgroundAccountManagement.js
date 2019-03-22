@@ -26,9 +26,38 @@ const backgroundAccountManagement = {
       data: query
     }).then(res => res);
   },
+  // 这是海外项目账户管理api
   addAccount: (query) => {
     return request({
       url: `${APPLICATION_NAME}/behind/admin/add`,
+      method: 'post',
+      data: query
+    }).then(res => res);
+  },
+  getAccountList: (query) => {
+    return request({
+      url: `${APPLICATION_NAME}/behind/admin/list`,
+      method: 'post',
+      data: query
+    }).then(res => res);
+  },
+  forbidAccount: (query) => {
+    return request({
+      url: `${APPLICATION_NAME}/behind/admin/forbid`,
+      method: 'post',
+      data: query
+    }).then(res => res);
+  },
+  recoverAccount: (query) => {
+    return request({
+      url: `${APPLICATION_NAME}/behind/admin/recover`,
+      method: 'post',
+      data: query
+    }).then(res => res);
+  },
+  updateUserAccount: (query) => {
+    return request({
+      url: `${APPLICATION_NAME}/behind/admin/updateUser`,
       method: 'post',
       data: query
     }).then(res => res);
