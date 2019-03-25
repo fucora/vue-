@@ -33,3 +33,4 @@ pipeline {
     gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: 'All')
   }
 }
+}
