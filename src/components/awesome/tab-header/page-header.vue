@@ -113,6 +113,7 @@
 
 <script>
 import ls from '@/utils/storage/local_storage';
+import {Encrypt} from '@/modules/index/views/login/crypto';
 // import { logout } from '@/common/api/main';
 import { getToken } from '@/utils/auth'; // 验权
 export default {
@@ -168,10 +169,10 @@ export default {
       let lsUserInfo = JSON.parse(ls.getItem('userInfo'));
       // debugger;
       if (
-        (tempUserInfo && tempUserInfo.account) ||
-        (lsUserInfo && lsUserInfo.account)
+        (tempUserInfo && tempUserInfo.email) ||
+        (lsUserInfo && lsUserInfo.email)
       ) {
-        this.mobile = tempUserInfo.account || lsUserInfo.account;
+        this.mobile = tempUserInfo.email || lsUserInfo.email;
         // debugger;
       }
       if (
@@ -206,13 +207,13 @@ export default {
     },
     passworInput(e) {
       // console.log(e.target.value);
-       let regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-      if (!regPsw.test(e.target.value)) {
-          this.$message({
-          type: 'warning',
-          message: '请输入长度为6-16为数字字母组合'
-        });
-      }
+      //  let regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      // if (!regPsw.test(e.target.value)) {
+      //     this.$message({
+      //     type: 'warning',
+      //     message: '请输入长度为6-16为数字字母组合'
+      //   });
+      // }
       // debugger;
     },
     save() {
@@ -231,8 +232,23 @@ export default {
         });
         return;
       }
+    let md5Pasword = Encrypt(this.password);
+    this.$store.dispatch('updatedPassword', {password: md5Pasword}).then((res) => {
+      if (res.code === 1) {
+        this.$message({
+          type: 'success',
+          message: res.message
+        });
+        // console.log(md5Pasword);
       this.dialogVisible = false;
-      console.log(this.password);
+      this.password = '';
+      }
+    }).catch((err) => {
+           this.$message({
+          type: 'error',
+          message: err.message
+        });
+    });
     },
     enter() {
       this.isShow = true;

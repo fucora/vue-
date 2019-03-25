@@ -31,7 +31,8 @@ const API = {
   },
   logout: () => {
     return request({
-      url: `${APPLICATION_NAME}/logout`,
+      url: `${APPLICATION_NAME}/front/logout`,
+      // url: `${APPLICATION_NAME}/logout`,
       method: 'post'
     });
   },
