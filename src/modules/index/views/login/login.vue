@@ -4,7 +4,7 @@
     <div class="login-container center-wrapper">
       <el-row class="login-main">
         <el-col :span="15" class="login-left">
-          <h2 class="title">美的IoT开放平台</h2>
+          <h2 class="title">美的海外IoT开放平台</h2>
           <p class="desc">实现从终端、云到服务，实现真正的开放，与各合作伙伴将建立起耦合式、嵌入式的合作关系，相互赋能，彻底打破信息孤岛，实现生态共建、共享资源、开放系统，与各行业合作伙伴共同构筑用户智慧生活生态</p>
         </el-col>
         <el-col :span="9" class="login-right">
@@ -13,7 +13,7 @@
             <div class="form-wrapper">
               <el-form class="login-form" :model="loginData" ref="loginForm" :rules="loginRules" :show-message="false">
                 <el-form-item prop="account">
-                  <el-input v-model.trim="loginData.account" auto-complete="off" placeholder="请输入手机号"></el-input>
+                  <el-input v-model.trim="loginData.account" auto-complete="off" placeholder="请输入登录账号"></el-input>
                 </el-form-item>
                 <el-form-item prop="password" :style="{marginBottom: tipErrorText === '' ? '16px' : '4px'}">
                   <el-input onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" v-model.trim="loginData.password" type="password" auto-complete="off" placeholder="密码"></el-input>
@@ -65,7 +65,7 @@ export default {
         remember: true
       },
       loginRules: {
-        account: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
+        account: [{ required: true, message: '请输入登录账号', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       },
       tipErrorText: ''

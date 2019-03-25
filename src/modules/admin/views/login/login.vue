@@ -4,7 +4,7 @@
     <div class="login-container center-wrapper">
       <el-row class="login-main">
         <el-col :span="15" class="login-left">
-          <h2 class="title">美的IoT开放平台</h2>
+          <h2 class="title">美的海外IoT开放平台</h2>
           <p class="desc">实现从终端、云到服务，实现真正的开放，与各合作伙伴将建立起耦合式、嵌入式的合作关系，相互赋能，彻底打破信息孤岛，实现生态共建、共享资源、开放系统，与各行业合作伙伴共同构筑用户智慧生活生态</p>
         </el-col>
         <el-col :span="9" class="login-right">
@@ -50,12 +50,12 @@
 
 <script>
 import headerLr from '@/components/awesome/header_lr/header_lr2';
-import Cookies from 'js-cookie';
-import { setCookie } from '@/utils/index';
-import CryptoJS from 'crypto-js';
+// import Cookies from 'js-cookie';
+// import { setCookie } from '@/utils/index';
+// import CryptoJS from 'crypto-js';
 import {Encrypt} from './crypto.js';
 // import { login } from '../../api/login/login';
-const securityKey = window.environment.securityKey;
+// const securityKey = window.environment.securityKey;
 export default {
   data() {
     return {
@@ -91,7 +91,7 @@ export default {
       let md5Psw = Encrypt(this.loginData.password);
       // console.log(md5Psw);
       let params = {
-        account: this.loginData.account,
+        email: this.loginData.account,
         password: md5Psw
         // remember: this.loginData.remember
       };
@@ -108,7 +108,7 @@ export default {
         });
         this.$router.push({name: '开发者平台系统管理'});
       } catch (e) {}
-    },
+    }
     // handleLogin() {
     //   // let md5Psw = CryptoJS.MD5(this.loginData.password).toString();
     //   let md5Psw = this.loginData.password;
@@ -141,47 +141,47 @@ export default {
     // },
 
     // 记住密码
-    rememberPsw() {
-      let loginInfo = {
-        account: this.loginData.account,
-        password: this.loginData.password
-      };
-      let secretKey = securityKey;
-      let ciphertext = CryptoJS.DES.encrypt(
-        JSON.stringify(loginInfo),
-        secretKey
-      ).toString();
-      setCookie('info', ciphertext);
-    },
+  //   rememberPsw() {
+  //     let loginInfo = {
+  //       account: this.loginData.account,
+  //       password: this.loginData.password
+  //     };
+  //     let secretKey = securityKey;
+  //     let ciphertext = CryptoJS.DES.encrypt(
+  //       JSON.stringify(loginInfo),
+  //       secretKey
+  //     ).toString();
+  //     setCookie('info', ciphertext);
+  //   },
 
-    // 获取登陆后记住的信息
-    getInfo() {
-      let loginInfo = Cookies.get('info');
-      if (typeof loginInfo !== 'undefined') {
-        let secretKey = securityKey;
-        let bytes = CryptoJS.DES.decrypt(loginInfo, secretKey);
-        let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        this.loginData.account = decryptedData.account
-          ? decryptedData.account
-          : '';
-        this.loginData.password = decryptedData.password
-          ? decryptedData.password
-          : '';
-      }
-    },
+  //   // 获取登陆后记住的信息
+  //   getInfo() {
+  //     let loginInfo = Cookies.get('info');
+  //     if (typeof loginInfo !== 'undefined') {
+  //       let secretKey = securityKey;
+  //       let bytes = CryptoJS.DES.decrypt(loginInfo, secretKey);
+  //       let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  //       this.loginData.account = decryptedData.account
+  //         ? decryptedData.account
+  //         : '';
+  //       this.loginData.password = decryptedData.password
+  //         ? decryptedData.password
+  //         : '';
+  //     }
+  //   },
 
-    // 跳转注册页面
-    register() {
-      this.$router.push({ path: '/register' });
-    },
+  //   // 跳转注册页面
+  //   register() {
+  //     this.$router.push({ path: '/register' });
+  //   },
 
-    // 跳转忘记密码页面
-    forget() {
-      this.$router.push({ path: '/forget' });
-    }
+  //   // 跳转忘记密码页面
+  //   forget() {
+  //     this.$router.push({ path: '/forget' });
+  //   }
   },
   created() {
-    this.getInfo();
+    // this.getInfo();
   },
   components: {
     'header-lr': headerLr

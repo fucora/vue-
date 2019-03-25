@@ -1,6 +1,6 @@
 // import { loginByUsername } from './../..//api/login/login';
 // import API from '../../api/myProductsData';
-import { meauAuthed, meauAuthedDel } from '@/modules/index/api/system/common';
+// import { meauAuthed, meauAuthedDel } from '@/modules/index/api/system/common';
 import API from './../../api/user/user';
 import { getToken, setToken, removeToken } from '@/utils/auth';
 import ls from '@/utils/storage/local_storage';
@@ -90,7 +90,7 @@ const user = {
       // commit('SET_TOKEN', result.accessToken);
       // commit('SET_USERINFO', result.user);
       // this.commit('saveGetUserInfo', result.user);
-      userInfo.account.trim();
+      // userInfo.account.trim();
       return new Promise((resolve, reject) => {
         API.loginByUsername(userInfo).then(response => {
           const data = response.result;
@@ -104,21 +104,21 @@ const user = {
         });
       });
     },
-    getMeauAuthed({ commit, state }, id) {
-      return new Promise((resolve, reject) => {
-        API.getAuthedList(id).then((res) => {
-          const buttonFlag = [];
-          const obj = meauAuthed(res.result, 10, buttonFlag);
-          // 讲数组中为null的删除
-          const roles = meauAuthedDel(obj.source);
-          commit('SET_ROLES', roles);
-          commit('SET_BUTTONFLAG', obj.json);
-          resolve();
-        }).catch(error => {
-          reject(error);
-        });
-      });
-    },
+    // getMeauAuthed({ commit, state }, id) {
+    //   return new Promise((resolve, reject) => {
+    //     API.getAuthedList(id).then((res) => {
+    //       const buttonFlag = [];
+    //       const obj = meauAuthed(res.result, 10, buttonFlag);
+    //       // 讲数组中为null的删除
+    //       const roles = meauAuthedDel(obj.source);
+    //       commit('SET_ROLES', roles);
+    //       commit('SET_BUTTONFLAG', obj.json);
+    //       resolve();
+    //     }).catch(error => {
+    //       reject(error);
+    //     });
+    //   });
+    // },
     // 获取登陆用户的权限数组
     // 登出
     LogOut({ commit, state }) {
