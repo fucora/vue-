@@ -1,13 +1,16 @@
 <template>
   <div class="header-lr-wrapper">
     <div class="header-lr-content center-wrapper">
-      <a class="logo-wrapper" href="javascript:void(0)" @click="goToHome">
+      <!-- <a class="logo-wrapper" href="javascript:void(0)" @click="goToHome"> -->
+      <a class="logo-wrapper" href="javascript:void(0)" >
         <img class="logo" src="../../../assets/img/logo@2x.png" alt="图片不存在" width="43" height="29">
         <span>开发者中心</span>
       </a>
       <div class="hlr-nav">
-        <a class="nav-link-a" href="javascript:void(0)" @click="goToHome">平台介绍</a>
-        <a href="#" @click="goDevelopGuide">开发指引</a>
+        <a class="nav-link-a" href="javascript:void(0)" >平台介绍</a>
+        <a href="javascript:void(0)">开发指引</a>
+        <!-- <a class="nav-link-a" href="javascript:void(0)" @click="goToHome">平台介绍</a> -->
+        <!-- <a href="#" @click="goDevelopGuide">开发指引</a> -->
       </div>
     </div>
   </div>
