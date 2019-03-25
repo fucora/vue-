@@ -13,7 +13,7 @@
             <div class="form-wrapper">
               <el-form class="login-form" :model="loginData" ref="loginForm" :rules="loginRules" :show-message="false">
                 <el-form-item prop="account">
-                  <el-input v-model.trim="loginData.account" auto-complete="off" placeholder="请输入手机号"></el-input>
+                  <el-input v-model.trim="loginData.account" auto-complete="off" placeholder="请输入登录账号"></el-input>
                 </el-form-item>
                 <el-form-item prop="password" :style="{marginBottom: tipErrorText === '' ? '16px' : '4px'}">
                   <el-input onpaste="return false" oncontextmenu="return false" oncopy="return false" oncut="return false" v-model.trim="loginData.password" type="password" auto-complete="off" placeholder="密码"></el-input>
@@ -65,7 +65,7 @@ export default {
         remember: true
       },
       loginRules: {
-        account: [{ required: true, message: '请输入手机号', trigger: 'blur' }],
+        account: [{ required: true, message: '请输入登录账号', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
       },
       tipErrorText: ''
