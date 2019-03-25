@@ -1,4 +1,4 @@
-import request from '@/utils/http';
+import request from '@/utils/admin-http';
 // const {
 //   APPLICATION_NAME
 // } = window.environment.iotserver;
