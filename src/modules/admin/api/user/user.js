@@ -15,7 +15,8 @@ const API = {
   // 登陆
   loginByUsername: (params) => {
     return request({
-      url: `${APPLICATION_NAME}/login`,
+      // url: `${APPLICATION_NAME}/login`,
+      url: `${APPLICATION_NAME}/behind/login`,
       method: 'post',
       data: params
     });
@@ -30,7 +31,9 @@ const API = {
   },
   logout: () => {
     return request({
-      url: `${APPLICATION_NAME}/logout`,
+      // url: `${APPLICATION_NAME}/logout`,
+      url: `${APPLICATION_NAME}/behind/logout`,
+
       method: 'post'
     });
   },
