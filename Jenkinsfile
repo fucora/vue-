@@ -23,42 +23,12 @@ pipeline {
       }
       post {
     	success {
-    		sh 'ssh mcloud@${packageSerHost} "[[ ! -d "/app/output/iotdevweb-002" ]] && mkdir -pv /app/output/iotdevweb-002 || exit 0"'
-    		sh 'scp ${iotdevwebpath} mcloud@${packageSerHost}:/app/output/iotdevweb-002/iotdevweb-002-${BRANCH_NAME}-${GIT_COMMIT}.zip'
+    		sh 'ssh mcloud@${packageSerHost} "[[ ! -d "/app/output/developer-abroad-web" ]] && mkdir -pv /app/output/developer-abroad-web || exit 0"'
+    		sh 'scp ${iotdevwebpath} mcloud@${packageSerHost}:/app/output/developer-abroad-web/developer-abroad-web-${BRANCH_NAME}-${GIT_COMMIT}.zip'
     	}
     }
     }
-    stage('Deploy dev') {
-    	   environment {    		
-    			packageName = "iotdevweb-002-${BRANCH_NAME}-${GIT_COMMIT}.zip"     		 		
-    		}
-    		agent {
-    			label "master"
-    		}
-    		steps {
-    			sh '/app/scripts/deploy-iotdevweb-002-dev.sh'
-    		}
-     }
-    stage('Deploy sit') {
-    	options {
-        		timeout(time: 30, unit: 'MINUTES') 
-      		}
-      		input {
-          	message "Deploy or Not?"
-          	submitter "liangyb,lipingliang,dengyx2"
-          	ok "Deploy it!"
-          }
-    	   environment {    		
-    			packageName = "iotdevweb-002-${BRANCH_NAME}-${GIT_COMMIT}.zip"     		 		
-    		}
-    		agent {
-    			label "master"
-    		}
-    		steps {
-    			sh '/app/scripts/deploy-iotdevweb-002.sh'
-    		}
-     }    
-  }
+
   triggers {
     gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: 'All')
   }
