@@ -19,7 +19,7 @@
                 </el-col> -->
               </el-row>
            </el-form>
-           <div class="btn-select"  v-authority="'b1_snListTarge'">
+           <div class="btn-select">
               <el-button type="primary" @click="checkSnList">筛 选</el-button>
               <el-button @click="clear">清 除</el-button>
            </div>
@@ -47,16 +47,20 @@
                 <div>{{scope.row.createTime | fomatDate('yyyy-MM-dd HH:mm')}}</div>
               </template>
             </el-table-column> -->
-            <el-table-column label="操作" align="center">
+            <el-table-column label="操作" align="center" width="200">
               <template slot-scope="scope">
-                  <span v-authority="'b1_snEnabledTag'">
+                  <span>
                     <el-button type="text" @click="enterBtton(scope.row.id, 0)" :disabled="scope.row.status === 1">启用</el-button>
                     <!-- <el-button type="text" @click="enterBtton(scope.row.id, 0)" :disabled="scope.row.status === 0">启用</el-button> -->
                   </span>
                   <span style="color: #DEDFE5;">|</span>
-                  <span v-authority="'b1_snProhibitTag'">
+                  <span>
                     <el-button type="text" @click="enterBtton(scope.row.id, 1)" :disabled="scope.row.status === 0">禁用</el-button>
                     <!-- <el-button type="text" @click="enterBtton(scope.row.id, 1)" :disabled="scope.row.status === 1">禁用</el-button> -->
+                  </span>
+                  <span style="color: #DEDFE5;">|</span>
+                  <span>
+                    <el-button type="text" @click="enterBtton(scope.row.id, 3)">初始化密码</el-button>
                   </span>
               </template>
             </el-table-column>
@@ -163,8 +167,10 @@ export default {
       var tip = '';
       if (flag === 0) {
         tip = '启用账户';
-      } else {
+      } else if (flag === 1) {
         tip = '禁用账户';
+      } else {
+        tip = '初始化账户密码';
       }
       this.$confirm(`此操作将${tip}, 是否继续?`, '提示', {
         confirmButtonText: '确定',
@@ -194,7 +200,7 @@ export default {
               this.getList(false);
             }
         });
-      } else {
+      } else if (flag === 1) {
         API.forbidSn(params)
         .then(res => {
             if (res.code === 0) {
@@ -205,6 +211,9 @@ export default {
               this.getList(false);
             }
         });
+      } else {
+        // 这里执行初始化密码逻辑
+        console.log('这里执行初始化密码逻辑');
       }
     },
     // 查询按钮
