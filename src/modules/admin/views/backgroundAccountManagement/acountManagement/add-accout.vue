@@ -64,6 +64,7 @@ export default {
                 message: res.message
             });
             this.$emit('close', false);
+            this.$emit('requestTable');
         }
       });
     }
