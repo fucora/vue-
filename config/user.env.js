@@ -6,26 +6,27 @@
  */
 var environment = (function () {
   var _application;
-  if (window.location.host === 'developer.msmartlife.com') {
-    // 生产环境域名
-    _application = {
-      iotserver: 'http://developer.msmartlife.com/ucenterWeb/v1/iotserver',
-      iotmj: '/mj'
-    }
-  } else if (window.location.host === 'developer-sit.msmartlife.com') {
-    // 测试环境域名
-    _application = {
-      iotserver: 'http://developer-sit.msmartlife.com/ucenterWeb/v1/iotserver',
-      iotmj: '/mj'
-    }
-  } else {
+  // if (window.location.host === 'developer.msmartlife.com') {
+  //   // 生产环境域名
+  //   _application = {
+  //     iotserver: 'http://developer.msmartlife.com/ucenterWeb/v1/iotserver',
+  //     iotmj: '/mj'
+  //   }
+  // } else if (window.location.host === 'developer-sit.msmartlife.com') {
+  //   // 测试环境域名
+  //   _application = {
+  //     iotserver: 'http://developer-sit.msmartlife.com/ucenterWeb/v1/iotserver',
+  //     iotmj: '/mj'
+  //   }
+  // } else {
     // 开发环境环境域名
     _application = {
       // iotserver: 'http://developer-sit.msmartlife.com/ucenterWeb/v1/iotserver',
-      iotserver: 'http://developer-dev.msmartlife.com/ucenterWeb/v1/iotserver',
+      // iotserver: 'http://developer-dev.msmartlife.com/ucenterWeb/v1/iotserver',
+      iotserver: 'http://developer-us.msmartlife.com/abroadWeb/v1/iotserver',
       iotmj: '/mj'
     }
-  }
+  // }
   //项目目录
   var _pathName = '/';
 

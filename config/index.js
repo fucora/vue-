@@ -28,16 +28,23 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/ucenterWeb/v1/iotserver': {
-        target: 'http://developer-sit.msmartlife.com',
+      // '/ucenterWeb/v1/iotserver': {
+      //   target: 'http://developer-sit.msmartlife.com',
+      //   logLevel: 'debug',
+      //   changeOrigin: true
+      // },
+      '/abroadWeb/v1/iotserver': {
+        // http://172.31.19.206:30000/abroadWeb/v1/iotserver/test/doTest
+        target: 'http://developer-us.msmartlife.com',
         logLevel: 'debug',
-        changeOrigin: true
-      },
-      '/mj': {
-        target: 'http://iotdeveloper-sit.smartmidea.net',
-        logLevel: 'debug',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false,
       }
+      // '/mj': {
+      //   target: 'http://iotdeveloper-sit.smartmidea.net',
+      //   logLevel: 'debug',
+      //   changeOrigin: true
+      // }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
