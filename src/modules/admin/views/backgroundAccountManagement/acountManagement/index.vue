@@ -8,8 +8,8 @@
            <el-form :inline="true" ref="formInline" :model="formInline" class="demo-form-inline" label-width="80px" :rules="rules">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label="email" prop="sn">
-                    <el-input v-model.trim="formInline.sn" clearable></el-input>
+                  <el-form-item label="email">
+                    <el-input v-model.trim="formInline.email" clearable></el-input>
                   </el-form-item>
                 </el-col>
                 <!-- <el-col :span="12">
@@ -30,33 +30,21 @@
             <el-button type="primary" @click="addAccount">新增账户</el-button>
           </div>
           <el-table :data="tableData" style="width: 100%"  class='table'>
-            <el-table-column prop="index" width="50" align="center" :render-header="renderIndex"></el-table-column>
-            <el-table-column prop="sn" label="SN" align="center"></el-table-column>
-            <el-table-column prop="mobile" label="所属人手机号" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="departmentName" label="开发者所在组" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column label="提交时间" align="center" width="150" show-overflow-tooltip>
-              <template slot-scope="scope">
-                <div>{{scope.row.createTime | fomatDate('yyyy-MM-dd HH:mm')}}</div>
-              </template>
-            </el-table-column>
-            <el-table-column prop="auditUid" label="审批人" align="center" show-overflow-tooltip></el-table-column>
-            <!-- <el-table-column prop="id" label="id" align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="id" label="id" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column prop="email" label="email" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column label="新增时间" align="center" width="150" show-overflow-tooltip>
               <template slot-scope="scope">
                 <div>{{scope.row.createTime | fomatDate('yyyy-MM-dd HH:mm')}}</div>
               </template>
-            </el-table-column> -->
+            </el-table-column>
             <el-table-column label="操作" align="center" width="200">
               <template slot-scope="scope">
                   <span>
-                    <el-button type="text" @click="enterBtton(scope.row.id, 0)" :disabled="scope.row.status === 1">启用</el-button>
-                    <!-- <el-button type="text" @click="enterBtton(scope.row.id, 0)" :disabled="scope.row.status === 0">启用</el-button> -->
+                    <el-button type="text" @click="enterBtton(scope.row.id, 0)" :disabled="scope.row.status === 0">启用</el-button>
                   </span>
                   <span style="color: #DEDFE5;">|</span>
-                  <span>
-                    <el-button type="text" @click="enterBtton(scope.row.id, 1)" :disabled="scope.row.status === 0">禁用</el-button>
-                    <!-- <el-button type="text" @click="enterBtton(scope.row.id, 1)" :disabled="scope.row.status === 1">禁用</el-button> -->
+                  <span>                   
+                   <el-button type="text" @click="enterBtton(scope.row.id, 1)" :disabled="scope.row.status === 1">禁用</el-button>
                   </span>
                   <span style="color: #DEDFE5;">|</span>
                   <span>
@@ -115,8 +103,7 @@ export default {
       loading: false,
       addProductsIcon: '/static/img/title_05@2x.png',
       formInline: {
-        mobile: '',
-        sn: ''
+        email: ''
       },
       tableData: [
         {index: 1, status: 0, sn: '111111223242432', mobile: '1383838924', departmentName: '中央研究院', createTime: '2019-10-24 14:54', auditUid: 'lll'},
@@ -190,7 +177,7 @@ export default {
         id: val
       };
       if (flag === 0) {
-        API.recoverSn(params)
+        API.recoverAccount(params)
         .then(res => {
             if (res.code === 0) {
               this.$message({
@@ -201,7 +188,7 @@ export default {
             }
         });
       } else if (flag === 1) {
-        API.forbidSn(params)
+        API.forbidAccount(params)
         .then(res => {
             if (res.code === 0) {
               this.$message({
@@ -213,7 +200,16 @@ export default {
         });
       } else {
         // 这里执行初始化密码逻辑
-        console.log('这里执行初始化密码逻辑');
+        API.updateUserAccount(params)
+        .then(res => {
+            if (res.code === 0) {
+              this.$message({
+                type: 'success',
+                message: res.message
+              });
+              this.getList(false);
+            }
+        });
       }
     },
     // 查询按钮
@@ -236,7 +232,7 @@ export default {
         pageNo: this.currentPage,
         pageSize: this.pageSize
       };
-      API.getSnList(params)
+      API.getAccountList(params)
       .then(res => {
         this.loading = false;
         if (res.code === 0) {
