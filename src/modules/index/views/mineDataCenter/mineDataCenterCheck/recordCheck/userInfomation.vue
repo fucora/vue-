@@ -8,6 +8,11 @@
       <el-form :inline="true" :model="formInline" ref="form" class="demo-form-inline" :rules="rules">
         <el-row>
           <el-col :span="8">
+            <el-form-item label="email" prop="email">
+              <el-input v-model="formInline.email" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <!-- <el-col :span="8">
             <el-form-item label="用户uid" prop="uid">
               <el-input v-model="formInline.uid" clearable></el-input>
             </el-form-item>
@@ -21,7 +26,7 @@
             <el-form-item label="用户手机号" prop="mobile">
               <el-input v-model="formInline.mobile" clearable></el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
       <div class="btn-select" v-authority="'b1_smartUserGetTag'">
@@ -69,8 +74,8 @@ export default {
     return {
       userParameter: [
         { head: '用户id', body: 'id' },
-        { head: '用户uid', body: 'uid' },
-        { head: '用户手机号', body: 'mobile' },
+        // { head: '用户uid', body: 'uid' },
+        // { head: '用户手机号', body: 'mobile' },
         { head: '昵称', body: 'nickName' },
         { head: '注册时间', body: 'registerTime' },
         { head: '邮箱', body: 'email' }
@@ -78,8 +83,9 @@ export default {
       appParameter: [],
       addProductsIcon: '/static/img/title_05@2x.png',
       formInline: {
-        userId: '',
-        mobile: ''
+        // userId: '',
+        // mobile: '',
+        email: ''
       },
       info: {
         id: '',
@@ -100,7 +106,8 @@ export default {
           validator: this.checkUserId,
           trigger: 'blur'
         },
-        mobile: { required: true, validator: this.checkMobile, trigger: 'blur' }
+        mobile: { required: true, validator: this.checkMobile, trigger: 'blur' },
+        email: { required: true, validator: this.checkEmailGet, trigger: 'blur' }
       }
     };
   },
@@ -140,8 +147,8 @@ export default {
         return;
       }
       // 同时校验必须至少有一条查询条件才去请求
-      if (!this.formInline.userId && !this.formInline.mobile && !this.formInline.uid) {
-        this.$message('请至少输入一条查询条件查询');
+      if (!this.formInline.email) {
+        this.$message('请输入查询条件查询');
         return;
       }
       this.getInfo();

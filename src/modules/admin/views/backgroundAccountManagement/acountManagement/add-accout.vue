@@ -12,7 +12,7 @@
 </template>
 <script>
 import { backgroundAccountManagement } from '../mixin';
-// import API from '@/modules/admin/api/backgroundAccountManagement/index.js';
+import API from '@/modules/admin/api/backgroundAccountManagement/index.js';
 export default {
   mixins: [backgroundAccountManagement],
   props: {
@@ -57,15 +57,15 @@ export default {
         ...this.form
       };
       console.log(params);
-    //   API.addAccount(params).then(res => {
-    //     if (res.code === 0) {
-    //         this.$message({
-    //             type: 'success',
-    //             message: res.message
-    //         });
-    //         this.$emit('close', false);
-    //     }
-    //   });
+      API.addAccount(params).then(res => {
+        if (res.code === 0) {
+            this.$message({
+                type: 'success',
+                message: res.message
+            });
+            this.$emit('close', false);
+        }
+      });
     }
   }
 };
