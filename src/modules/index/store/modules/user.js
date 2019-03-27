@@ -168,15 +168,15 @@ const user = {
             commit('SET_USERINFO', '');
             removeToken();
             ls.removeItem('userInfo');
-            ls.removeItem('roles');
-            ls.removeItem('userInfoNickName');
-            ls.removeItem('buttonFlag');
-            commit('saveGetUserInfo', null);
-            ls.removeItem('saveGetUserInfo');
+            // ls.removeItem('roles');
+            // ls.removeItem('userInfoNickName');
+            // ls.removeItem('buttonFlag');
+            // commit('saveGetUserInfo', null);
+            // ls.removeItem('saveGetUserInfo');
 
-            ls.removeItem('proto');
-            ls.removeItem('network');
-            ls.removeAll();
+            // ls.removeItem('proto');
+            // ls.removeItem('network');
+            // ls.removeAll();
             resolve(resolve);
           })
           .catch(error => {

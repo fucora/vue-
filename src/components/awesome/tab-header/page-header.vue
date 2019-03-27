@@ -301,7 +301,7 @@ export default {
       this.$store
         .dispatch('updatedPassword', { password: md5Pasword })
         .then(res => {
-          if (res.code === 1) {
+          if (res.code === 0) {
             this.$message({
               type: 'success',
               message: res.message
