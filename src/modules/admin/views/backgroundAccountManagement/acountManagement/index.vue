@@ -31,9 +31,9 @@
           </div>
           <el-table :data="tableData" style="width: 100%"  class='table'>
             <el-table-column prop="index" width="50" align="center" :render-header="renderIndex"></el-table-column>
-            <el-table-column prop="id" width="100" label="id" align="center" show-overflow-tooltip></el-table-column>
+            <!-- <el-table-column prop="id" width="100" label="id" align="center" show-overflow-tooltip></el-table-column> -->
             <el-table-column prop="email" label="email" align="center" show-overflow-tooltip></el-table-column>
-            <el-table-column label="新增时间" align="center" width="150" show-overflow-tooltip>
+            <el-table-column label="注册时间" align="center" width="200" show-overflow-tooltip>
               <template slot-scope="scope">
                 <div>{{scope.row.createTime | fomatDate('yyyy-MM-dd HH:mm')}}</div>
               </template>
