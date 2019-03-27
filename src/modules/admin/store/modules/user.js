@@ -95,9 +95,9 @@ const user = {
         API.loginByUsername(userInfo).then(response => {
           const data = response.result;
           commit('SET_TOKEN', data.accessToken);
-          commit('SET_USERINFO', data.user);
+          commit('SET_USERINFO', data.admin);
 
-          this.commit('saveGetUserInfo', data.user);
+          this.commit('saveGetUserInfo', data.admin);
           resolve(data);
         }).catch(error => {
           reject(error);

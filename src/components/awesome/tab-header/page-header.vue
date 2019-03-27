@@ -28,17 +28,15 @@
           >{{pItem.name}}</span>
         </div>
       </div>
-             <!-- @mouseleave="isShow = false" -->
+      <!-- @mouseleave="isShow = false" -->
       <div
         class="user-info-wrapper pull-right"
         v-if="(nickName||mobile)&&getToken"
-
         @mouseleave="mouseleave"
       >
-             <!-- @click.stop="isShow = !isShow" -->
+        <!-- @click.stop="isShow = !isShow" -->
         <div
           class="user-info-content"
-
           @mouseenter="enter"
         >
           <span v-if="nickName">
@@ -56,7 +54,7 @@
         </div>
         <span class="icon-bell"></span>
         <transition name="slideInfo">
-                      <!-- v-show="isShow" -->
+          <!-- v-show="isShow" -->
           <div
             class="hide-user-info"
             v-show="isShow"
@@ -90,11 +88,44 @@
       :before-close="handleClose"
     >
       <div>
-        <el-input
+        <!-- <el-input
           type="text"
           v-model="password"
           @blur="passworInput"
-        />
+        /> -->
+        <el-form
+          class="register-form"
+          ref="regForm"
+          :model="registerData"
+          :rules="registerRules"
+        >
+          <el-form-item prop="password">
+            <el-input
+              onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
+              onpaste="return false"
+              oncontextmenu="return false"
+              oncopy="return false"
+              oncut="return false"
+              v-model.trim="registerData.password"
+              type="password"
+              auto-complete="off"
+              placeholder="设置密码：6-16位数字字母组合"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="confirmPsw">
+            <el-input
+              onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
+              onpaste="return false"
+              oncontextmenu="return false"
+              oncopy="return false"
+              oncut="return false"
+              v-model.trim="registerData.confirmPsw"
+              type="password"
+              auto-complete="off"
+              placeholder="确认密码"
+            ></el-input>
+          </el-form-item>
+        </el-form>
       </div>
       <span
         slot="footer"
@@ -113,7 +144,7 @@
 
 <script>
 import ls from '@/utils/storage/local_storage';
-import {Encrypt} from '@/modules/index/views/login/crypto';
+import { Encrypt } from '@/modules/index/views/login/crypto';
 // import { logout } from '@/common/api/main';
 import { getToken } from '@/utils/auth'; // 验权
 export default {
@@ -124,7 +155,39 @@ export default {
     }
   },
   data() {
+    var validatePsw = (rule, value, callback) => {
+      var regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (!regPsw.test(value)) {
+          callback(new Error('请输入长度为6-16为数字字母组合'));
+        } else {
+          if (this.registerData.confirmPsw !== '') {
+            this.$refs['regForm'].validateField('confirmPsw');
+          }
+          callback();
+        }
+      }
+    };
+    var validateCheckPsw = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.registerData.password) {
+        callback(new Error('两次输入密码不一致'));
+      } else {
+        callback();
+      }
+    };
     return {
+      registerRules: {
+        password: [{ validator: validatePsw, trigger: 'blur' }],
+        confirmPsw: [{ validator: validateCheckPsw, trigger: 'blur' }]
+      },
+      registerData: {
+        password: '',
+        confirmPsw: ''
+      },
       dialogVisible: false,
       password: '',
 
@@ -203,7 +266,8 @@ export default {
     },
     handleClose() {
       this.dialogVisible = false;
-      this.password = '';
+      this.registerData.password = '';
+      this.registerData.confirmPsw = '';
     },
     passworInput(e) {
       // console.log(e.target.value);
@@ -217,7 +281,7 @@ export default {
       // debugger;
     },
     save() {
-      if (!this.password) {
+      if (!this.registerData.password) {
         this.$message({
           type: 'warning',
           message: '不能为空'
@@ -225,41 +289,47 @@ export default {
         return;
       }
       let regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-      if (!regPsw.test(this.password)) {
-          this.$message({
+      if (!regPsw.test(this.registerData.password)) {
+        this.$message({
           type: 'warning',
           message: '请输入长度为6-16为数字字母组合'
         });
         return;
       }
-    let md5Pasword = Encrypt(this.password);
-    this.$store.dispatch('updatedPassword', {password: md5Pasword}).then((res) => {
-      if (res.code === 1) {
-        this.$message({
-          type: 'success',
-          message: res.message
+      let md5Pasword = Encrypt(this.registerData.password);
+      console.log(md5Pasword);
+      this.$store
+        .dispatch('updatedPassword', { password: md5Pasword })
+        .then(res => {
+          if (res.code === 1) {
+            this.$message({
+              type: 'success',
+              message: res.message
+            });
+            // console.log(md5Pasword);
+            this.dialogVisible = false;
+            this.registerData.password = '';
+            this.registerData.confirmPsw = '';
+            this.handleLogout();
+          }
+        })
+        .catch(err => {
+          this.$message({
+            type: 'error',
+            message: err.message
+          });
         });
-        // console.log(md5Pasword);
-      this.dialogVisible = false;
-      this.password = '';
-      }
-    }).catch((err) => {
-           this.$message({
-          type: 'error',
-          message: err.message
-        });
-    });
     },
     enter() {
       this.isShow = true;
     },
     mouseleave() {
       this._timer = setTimeout(() => {
-         this.isShow = false;
+        this.isShow = false;
       }, 150);
     },
     sover() {
-            // 清除定时器不然定时器继续执行
+      // 清除定时器不然定时器继续执行
       clearTimeout(this._timer);
     },
     sout() {
