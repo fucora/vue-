@@ -126,18 +126,19 @@ const user = {
         API.logout().then(() => {
           // commit('SET_TOKEN', '');
           // commit('SET_ROLES', []);
+
           commit('SET_USERINFO', '');
           removeToken('admin-accessToken');
-          ls.removeItem('userInfo');
-          ls.removeItem('roles');
-          ls.removeItem('userInfoNickName');
-          ls.removeItem('buttonFlag');
+          // ls.removeItem('userInfo');
+          // ls.removeItem('roles');
+          // ls.removeItem('userInfoNickName');
+          // ls.removeItem('buttonFlag');
           commit('saveGetUserInfo', null);
           ls.removeItem('saveGetUserInfo');
 
-          ls.removeItem('proto');
-          ls.removeItem('network');
-          ls.removeAll();
+          // ls.removeItem('proto');
+          // ls.removeItem('network');
+          // ls.removeAll();
           resolve(resolve);
         }).catch(error => {
           reject(error);
