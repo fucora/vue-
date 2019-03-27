@@ -30,7 +30,8 @@
             <el-button type="primary" @click="addAccount">新增账户</el-button>
           </div>
           <el-table :data="tableData" style="width: 100%"  class='table'>
-            <el-table-column prop="id" label="id" align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="index" width="50" align="center" :render-header="renderIndex"></el-table-column>
+            <el-table-column prop="id" width="100" label="id" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column prop="email" label="email" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column label="新增时间" align="center" width="150" show-overflow-tooltip>
               <template slot-scope="scope">
@@ -68,7 +69,7 @@
         </div>
 
         <mine-dialog :dialogFormVisible='flag' :width='"40%"' :modalFlag="modalFlag" @close="close" :title="title" :showClose="showClose">
-          <add-account slot="option" @close="close" :flag="flag"></add-account>
+          <add-account slot="option" @close="close" :flag="flag" @requestTable="requestTable"></add-account>
         </mine-dialog>
 
     </div>
@@ -118,6 +119,9 @@ export default {
     this.getList(true);
   },
   methods: {
+    requestTable () {
+      this.getList(true);
+    },
     addAccount () {
       this.flag = true;
       this.title = '新增账户';

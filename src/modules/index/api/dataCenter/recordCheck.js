@@ -8,7 +8,7 @@ const recordCheckApi = {
     // 用户信息查询API
     getSmartUserInfo: (query) => {
         return request({
-          url: `${APPLICATION_NAME}/smartUser/get`,
+          url: `${APPLICATION_NAME}/front/smartUser`,
           data: query,
           method: 'post'
         }).then(res => res);
@@ -16,7 +16,7 @@ const recordCheckApi = {
     // 设备信息查询API
     getSmartApplianceInfo: (query) => {
       return request({
-        url: `${APPLICATION_NAME}/smartAppliance/get`,
+        url: `${APPLICATION_NAME}/front/smartAppliance`,
         data: query,
         method: 'post'
       }).then(res => res);
@@ -30,7 +30,7 @@ const recordCheckApi = {
       //   }
       //   }).then(response => response.data);
         return request({
-          url: `${APPLICATION_NAME}/smartAppliance/getState`,
+          url: `${APPLICATION_NAME}/front/smartAppliance/getState`,
           data: query,
           method: 'post'
         }).then(res => res);
