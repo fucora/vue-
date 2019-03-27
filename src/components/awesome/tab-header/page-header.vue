@@ -99,7 +99,11 @@
           :model="registerData"
           :rules="registerRules"
         >
+        <el-form-item>
+          <input style="display:none" type="password" name="" id="">
+        </el-form-item>
           <el-form-item prop="password">
+            <input type="password" style="display: none;">
             <el-input
               onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
               onpaste="return false"
@@ -107,10 +111,13 @@
               oncopy="return false"
               oncut="return false"
               v-model.trim="registerData.password"
-              type="password"
-              auto-complete="off"
+              onfocus="this.type='password'"
+              type="text"
+              autocomplete="off"
               placeholder="设置密码：6-16位数字字母组合"
             ></el-input>
+
+<!-- <input  autocomplete="new-password" onfocus="this.type='password'" type="text" placeholder="密码" value=""> -->
           </el-form-item>
           <el-form-item prop="confirmPsw">
             <el-input
@@ -120,8 +127,10 @@
               oncopy="return false"
               oncut="return false"
               v-model.trim="registerData.confirmPsw"
-              type="password"
+              onfocus="this.type='password'"
+              type="text"
               auto-complete="off"
+              autocomplete="off"
               placeholder="确认密码"
             ></el-input>
           </el-form-item>
