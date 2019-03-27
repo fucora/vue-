@@ -8,7 +8,7 @@ const recordCheckApi = {
     // 用户信息查询API
     getSmartUserInfo: (query) => {
         return request({
-          url: `${APPLICATION_NAME}/front/smartUser`,
+          url: `${APPLICATION_NAME}/front/smartUser/get`,
           data: query,
           method: 'post'
         }).then(res => res);
@@ -16,7 +16,7 @@ const recordCheckApi = {
     // 设备信息查询API
     getSmartApplianceInfo: (query) => {
       return request({
-        url: `${APPLICATION_NAME}/front/smartAppliance`,
+        url: `${APPLICATION_NAME}/front/smartAppliance/get`,
         data: query,
         method: 'post'
       }).then(res => res);
