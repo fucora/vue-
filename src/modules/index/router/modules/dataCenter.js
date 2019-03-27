@@ -44,12 +44,12 @@ export const dataCenterRouter =
       redirect: '/product/dataCenter/logQuery/distributionLog',
       meta: { title: '日志查询', icon: '日志查询' },
       children: [
-        {
-          path: 'distributionLog',
-          name: '配网日志',
-          component: _import('mineDataCenter/mineDataCenterCheck/logQuery/distributionLog'),
-          meta: { title: '配网日志' }
-        },
+        // {
+        //   path: 'distributionLog',
+        //   name: '配网日志',
+        //   component: _import('mineDataCenter/mineDataCenterCheck/logQuery/distributionLog'),
+        //   meta: { title: '配网日志' }
+        // },
         {
           path: 'upperAndLowerLine',
           name: '上下线',
