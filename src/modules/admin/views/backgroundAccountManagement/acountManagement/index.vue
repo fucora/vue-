@@ -35,7 +35,7 @@
             <el-table-column prop="email" label="email" align="center" show-overflow-tooltip></el-table-column>
             <el-table-column label="注册时间" align="center" width="200" show-overflow-tooltip>
               <template slot-scope="scope">
-                <div>{{scope.row.createTime | fomatDate('yyyy-MM-dd HH:mm')}}</div>
+                <div>{{scope.row.registerTime | fomatDate('yyyy-MM-dd HH:mm')}}</div>
               </template>
             </el-table-column>
             <el-table-column label="操作" align="center" width="200">
