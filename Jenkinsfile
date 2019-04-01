@@ -17,7 +17,7 @@ pipeline {
     		label "ubuntu"
     	}
       steps {
-          sh 'docker cp iotdevweb:${workspace}/dist/dist.zip /app/output/abroad-web-openresty/abroad-web-openresty-${BRANCH_NAME}-${GIT_COMMIT}.zip'
+          sh 'docker cp iotdevweb:/app/jenkins/workspace/dev-front-web_${BRANCH_NAME}/dist/dist.zip /app/output/abroad-web-openresty/abroad-web-openresty-${BRANCH_NAME}-${GIT_COMMIT}.zip'
       	  sh 'cd /app/k8s/dockerfile/abroad-web-openresty; cp -f /app/output/abroad-web-openresty/abroad-web-openresty-${BRANCH_NAME}-${GIT_COMMIT}.zip abroad-web-openresty.zip && docker build -t registry.us-west-1.aliyuncs.com/oversea-midea-iot/abroad-web-openresty:${GIT_COMMIT} .'	
       }
     }
