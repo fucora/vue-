@@ -2,10 +2,6 @@ pipeline {
   agent any
   stages {
     stage('Build abroad-web-openresty') {
-    	environment {    		
-    		packageSerHost = "10.168.220.229"
-    		iotdevwebpath = "dist/dist.zip"      		 		
-    	}
     	agent {
     		label "iotdevweb"
     	}
@@ -21,9 +17,32 @@ pipeline {
     		label "ubuntu"
     	}
       steps {
-          sh 'echo ${WORKSPACE}'
+          sh 'docker cp iotdevweb:${workspace}/dist/dist.zip /app/output/abroad-web-openresty/abroad-web-openresty-${BRANCH_NAME}-${GIT_COMMIT}.zip'
+      	  sh 'cd /app/k8s/dockerfile/abroad-web-openresty; cp -f /app/output/abroad-web-openresty/abroad-web-openresty-${BRANCH_NAME}-${GIT_COMMIT}.zip abroad-web-openresty.zip && docker build -t registry.us-west-1.aliyuncs.com/oversea-midea-iot/abroad-web-openresty:${GIT_COMMIT} .'	
       }
-    }  
+    }
+    stage('Push image') {
+        	agent {        		
+        		label 'ubuntu'
+        	}
+        	environment {
+        		registryUser = 'jackey13265593109@163.com'
+                registryPass = credentials('aliyunMediaIotRegistryPass')
+            }
+        	steps {      		
+        		sh "docker login -u $registryUser -p $registryPass registry.us-west-1.aliyuncs.com && docker push registry.us-west-1.aliyuncs.com/oversea-midea-iot/abroad-web-openresty:${GIT_COMMIT}"
+        	}
+        }
+    stage('Deploy') {
+        	agent {        		
+        		label 'ubuntu'
+        	}
+        	steps {      		
+        		sh "kubectl set image deployment/abroad-web-openresty-d abroad-web-openresty=registry.us-west-1.aliyuncs.com/oversea-midea-iot/abroad-web-openresty:${GIT_COMMIT}"
+        		sh "sleep 60"
+        		sh "kubectl get pods"
+        	}
+        }  
 }
 
   triggers {
