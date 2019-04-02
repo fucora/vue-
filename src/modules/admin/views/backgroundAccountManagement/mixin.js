@@ -1,11 +1,11 @@
 export const backgroundAccountManagement = {
     methods: {
-      // 邮箱校验
+      // 邮箱校验 /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
       checkEmail(rule, value, callback) {
         if (!value) {
-          callback(new Error('请选择'));
+          callback(new Error('请输入'));
         } else {
-          if (!/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(value)) {
+          if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)) {
             callback(new Error('邮箱格式不正确'));
           } else {
             callback();
@@ -17,7 +17,7 @@ export const backgroundAccountManagement = {
         if (!value) {
           callback();
         } else {
-          if (!/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(value)) {
+          if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)) {
             callback(new Error('邮箱格式不正确'));
           } else {
             callback();

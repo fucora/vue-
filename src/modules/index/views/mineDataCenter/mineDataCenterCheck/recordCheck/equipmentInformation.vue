@@ -30,7 +30,7 @@
            </div>
         </div>
 
-        <div class="mine-r-table">
+        <div class="mine-r-table" v-loading="loading">
           <div class="tip-one">
             设备基本信息
           </div>
@@ -65,6 +65,7 @@ export default {
   mixins: [checkInfo],
   data () {
     return {
+      loading: false,
       baseParameter: [
         { head: '设备ID', body: 'applianceCode' },
         { head: '设备SN', body: 'sn' },
@@ -156,6 +157,7 @@ export default {
     },
     // 查询方法
     getInfo () {
+      this.loading = true;
       const query = {
         ...this.formInline
       };
@@ -186,6 +188,7 @@ export default {
               createTime: ''
             };
            }
+           this.loading = false;
          })
          .catch(() => {
             this.info = {
@@ -208,6 +211,7 @@ export default {
               userHomeCount: '',
               createTime: ''
             };
+            this.loading = false;
          });
     },
     initParameter (val) {

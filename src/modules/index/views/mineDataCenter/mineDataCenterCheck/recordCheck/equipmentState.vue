@@ -24,7 +24,7 @@
               <el-button @click="clear">清 除</el-button>
            </div>
         </div>
-        <div class="mine-r-table">
+        <div class="mine-r-table" v-loading="loading">
           <div class="tip-one">
             设备在线状态
           </div>
@@ -58,6 +58,7 @@ export default {
         { head: '在线状态', body: 'online' },
         { head: '所在地', body: 'location' }
       ],
+      loading: false,
       addProductsIcon: '/static/img/title_05@2x.png',
       formInline: {
         deviceId: '',
@@ -102,6 +103,7 @@ export default {
     },
     // 查询方法
     getInfo () {
+      this.loading = true;
       // this.formInline.deviceId = Number(this.formInline.deviceId);
       // console.log(Number(this.formInline.deviceId));
       const query = {
@@ -133,6 +135,7 @@ export default {
                 duration: 5 * 1000
               });
            }
+           this.loading = false;
          })
          .catch(() => {
             this.info = {
@@ -143,6 +146,7 @@ export default {
               online: '',
               location: ''
             };
+            this.loading = false;
          });
     }
   }
