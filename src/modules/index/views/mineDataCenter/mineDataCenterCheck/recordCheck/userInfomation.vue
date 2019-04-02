@@ -1,7 +1,7 @@
 <template>
     <div class="sn-mine--warp">
         <div class="title-mip">
-            <con-header :title-icon="addProductsIcon" title="账户管理" :hasBottomBorder="true"></con-header>
+            <con-header :title-icon="addProductsIcon" title="用户信息查询" :hasBottomBorder="true"></con-header>
         </div>
         <!-- 查询部分 -->
         <div class="mip-check">
