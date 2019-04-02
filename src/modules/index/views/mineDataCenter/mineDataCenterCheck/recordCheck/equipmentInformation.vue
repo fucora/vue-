@@ -30,21 +30,23 @@
            </div>
         </div>
 
-        <div class="mine-r-table" v-loading="loading">
-          <div class="tip-one">
-            设备基本信息
+        <div v-loading="loading">
+          <div class="mine-r-table">
+            <div class="tip-one">
+              设备基本信息
+            </div>
+            <div>
+              <mine-table :info="info" :tabelParameter='baseParameter'></mine-table>
+            </div>
           </div>
-          <div>
-            <mine-table :info="info" :tabelParameter='baseParameter'></mine-table>
-          </div>
-        </div>
 
-        <div class="mine-r-table">
-          <div class="tip-one">
-            所在家庭信息
-          </div>
-          <div>
-            <mine-table :info="info" :tabelParameter='famliParameter'></mine-table>
+          <div class="mine-r-table">
+            <div class="tip-one">
+              所在家庭信息
+            </div>
+            <div>
+              <mine-table :info="info" :tabelParameter='famliParameter'></mine-table>
+            </div>
           </div>
         </div>
   </div>

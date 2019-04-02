@@ -183,6 +183,7 @@ export default {
     },
     clear () {
       restData(this.formInline);
+      this.tableData = [];
     }
   },
   filters: {
