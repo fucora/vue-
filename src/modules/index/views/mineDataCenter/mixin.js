@@ -5,7 +5,7 @@ export const checkInfo = {
       if (!value) {
         callback();
       } else {
-        if (!/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(value)) {
+        if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value)) {
           callback(new Error('邮箱格式不正确'));
         } else {
           callback();
