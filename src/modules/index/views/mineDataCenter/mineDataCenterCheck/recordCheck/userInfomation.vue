@@ -92,10 +92,7 @@ export default {
       formInline: {
         email: ''
       },
-      tableData: [
-        // {index: 1, id: 111, email: '111@qq.com', registerTime: '2018-10-24 20:35:35'},
-        // {index: 2, id: 222, email: '222@qq.com', registerTime: '2018-10-24 20:35:36'}
-      ],
+      tableData: [],
       // currentPage: 1,
       // total: 0,
       // pageSize: 10,
