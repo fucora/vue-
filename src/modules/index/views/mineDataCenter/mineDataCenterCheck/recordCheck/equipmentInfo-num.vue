@@ -162,15 +162,15 @@ export default {
       if (!val) return [];
       for (var i = 0; i < val.length; i++) {
         switch (val[i].activeStatus) {
-            case 1:
+            case 0:
               val[i]['activeStatusShow'] = '未激活';
             break;
-            case 2:
-              val[i]['activeStatusShow'] = '激活';
+            case 1:
+              val[i]['activeStatusShow'] = '已激活';
             break;
-            case 3:
-              val[i]['activeStatusShow'] = '禁止';
-            break;
+            // case 3:
+            //   val[i]['activeStatusShow'] = '禁止';
+            // break;
         }
       }
       return val;
