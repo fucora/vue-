@@ -1,17 +1,7 @@
 pipeline {
   agent any
-  parameters {
-        string(name: 'nodeName', defaultValue: 'iotdevweb', description: 'build this project to which node')
-        string(name: 'registryHost', defaultValue: 'registry-internal.cn-hangzhou.aliyuncs.com', description: 'the ali registry address')
-		string(name: 'registryNamespace', defaultValue: 'midea-iot', description: 'the ali registry namespace')
-		string(name: 'registryName', defaultValue: 'iotdeveloperweb', description: 'the ali registry name')
-    }
   stages {
-    stage('Build iotdevweb') {
-    	environment {    		
-    		packageSerHost = "10.168.220.229"
-    		iotdevwebpath = "dist/dist.zip"      		 		
-    	}
+    stage('Build abroad-web-openresty') {
     	agent {
     		label "iotdevweb"
     	}
@@ -21,44 +11,40 @@ pipeline {
           sh 'cp -af node_modules /root/'
           sh 'npm run build && cd dist; zip -q -r dist.zip *'
       }
-      post {
-    	success {
-    		sh 'ssh mcloud@${packageSerHost} "[[ ! -d "/app/output/iotdevweb-002" ]] && mkdir -pv /app/output/iotdevweb-002 || exit 0"'
-    		sh 'scp ${iotdevwebpath} mcloud@${packageSerHost}:/app/output/iotdevweb-002/iotdevweb-002-${BRANCH_NAME}-${GIT_COMMIT}.zip'
+    }
+    stage('copy target to master') {	
+      agent {
+    		label "ubuntu"
     	}
+      steps {
+          sh 'docker cp iotdevweb:/app/jenkins/workspace/dev-front-web_${BRANCH_NAME}/dist/dist.zip /app/output/abroad-web-openresty/abroad-web-openresty-${BRANCH_NAME}-${GIT_COMMIT}.zip'
+      	  sh 'cd /app/k8s/dockerfile/abroad-web-openresty; cp -f /app/output/abroad-web-openresty/abroad-web-openresty-${BRANCH_NAME}-${GIT_COMMIT}.zip abroad-web-openresty.zip && docker build -t registry.us-west-1.aliyuncs.com/oversea-midea-iot/abroad-web-openresty:${GIT_COMMIT} .'	
+      }
     }
-    }
-    stage('Deploy dev') {
-    	   environment {    		
-    			packageName = "iotdevweb-002-${BRANCH_NAME}-${GIT_COMMIT}.zip"     		 		
-    		}
-    		agent {
-    			label "master"
-    		}
-    		steps {
-    			sh '/app/scripts/deploy-iotdevweb-002-dev.sh'
-    		}
-     }
-    stage('Deploy sit') {
-    	options {
-        		timeout(time: 30, unit: 'MINUTES') 
-      		}
-      		input {
-          	message "Deploy or Not?"
-          	submitter "liangyb,lipingliang,dengyx2"
-          	ok "Deploy it!"
-          }
-    	   environment {    		
-    			packageName = "iotdevweb-002-${BRANCH_NAME}-${GIT_COMMIT}.zip"     		 		
-    		}
-    		agent {
-    			label "master"
-    		}
-    		steps {
-    			sh '/app/scripts/deploy-iotdevweb-002.sh'
-    		}
-     }    
-  }
+    stage('Push image') {
+        	agent {        		
+        		label 'ubuntu'
+        	}
+        	environment {
+        		registryUser = 'jackey13265593109@163.com'
+                registryPass = credentials('aliyunMediaIotRegistryPass')
+            }
+        	steps {      		
+        		sh "docker login -u $registryUser -p $registryPass registry.us-west-1.aliyuncs.com && docker push registry.us-west-1.aliyuncs.com/oversea-midea-iot/abroad-web-openresty:${GIT_COMMIT}"
+        	}
+        }
+    stage('Deploy') {
+        	agent {        		
+        		label 'ubuntu'
+        	}
+        	steps {      		
+        		sh "kubectl set image deployment/abroad-web-openresty-d abroad-web-openresty=registry.us-west-1.aliyuncs.com/oversea-midea-iot/abroad-web-openresty:${GIT_COMMIT}"
+        		sh "sleep 60"
+        		sh "kubectl get pods"
+        	}
+        }  
+}
+
   triggers {
     gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType: 'All')
   }

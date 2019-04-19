@@ -20,21 +20,24 @@
             <span class="user-info">{{mobile}}</span>
             <!-- <span class="user-info" v-if="roleName">({{roleName}})</span> -->
           </span>
-          <span class="icon-down" :class="{rotate: isShow}"></span>
+          <!-- <span class="icon-down" :class="{rotate: isShow}"></span> -->
+          <span class="list-item" @click="handleLogout">
+            <a href="javascript:void(0)" style="font-size: 14px;">退出</a>
+          </span>
         </div>
         <span class="icon-bell"></span>
-        <transition name="slideInfo">
+        <!-- <transition name="slideInfo">
           <div class="hide-user-info" v-show="isShow" @click.stop>
-            <ul class="user-info-list">
-              <li class="list-item">
+            <ul class="user-info-list"> -->
+              <!-- <li class="list-item">
                 <a href="javascript:void(0)" @click="goToInfo">开发者信息</a>
-              </li>
-              <li class="list-item" @click="handleLogout">
+              </li> -->
+              <!-- <li class="list-item" @click="handleLogout">
                 <a href="javascript:void(0)">退出</a>
               </li>
             </ul>
           </div>
-        </transition>
+        </transition> -->
       </div>
     </div>
   </div>
@@ -91,7 +94,7 @@ export default {
   methods: {
     handleName() {
       let tempUserInfo = this.$store.getters.userInfo;
-      let lsUserInfo = JSON.parse(ls.getItem('admin-userInfo'));
+      let lsUserInfo = ls.getItem('admin-userInfo') ? JSON.parse(ls.getItem('admin-userInfo')) : {};
       // debugger;
       if (
         (tempUserInfo && tempUserInfo.email) ||

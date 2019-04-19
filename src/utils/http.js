@@ -10,21 +10,33 @@ import {
   // MessageBox
 } from 'element-ui';
 
+// let host;
+// if (process.env.NODE_ENV === 'production') {
+//   host = 'http://developer-us.msmartlife.com/abroadWeb/v1/iotserver';
+// } else if (process.env.NODE_ENV === 'development') {
+//   host = 'http://developer-us.msmartlife.com/abroadWeb/v1/iotserver';
+// } else {
+//   host = 'http://developer-us.msmartlife.com/abroadWeb/v1/iotserver';
+// }
 // 创建axios实例
 const service = axios.create({
   timeout: 15000000, // 请求超时时间
   withCredentials: true,
   headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' }
+  // baseURL: host
 });
 console.log(window.location.href);
 // request拦截器
 service.interceptors.request.use(config => {
-  if (store.getters.token) {
-    console.log(store.getters.token);
-    // debugger;
-    // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
-    config.headers['accessToken'] = getToken();
-  }
+  config.headers['accessToken'] = getToken();
+  // if (store.getters.token) {
+  //   console.log(store.getters.token);
+  //   // debugger;
+  //   // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
+  //   config.headers['accessToken'] = getToken();
+  // } else {
+  //   config.headers['accessToken'] = getToken();
+  // }
   if (config.showLoading) {
     showFullScreenLoading();
   }

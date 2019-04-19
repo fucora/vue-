@@ -17,7 +17,7 @@ import router from './router';
 // });
 
 import '@/icons';
-import './permission'; // permission control
+// import './permission'; // permission control
 Vue.use(ElementUI);
 Vue.use(directives);
 // Vue.use(VueRouter);

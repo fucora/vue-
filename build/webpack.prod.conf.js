@@ -9,8 +9,59 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var glob = require('glob');
-
-var env = config.build.env
+// 获取所有模块列表
+const moduleToBuild = require('./module-conf').getModuleToBuild() || []
+// 组装多个（有几个module就有几个htmlWebpackPlugin）htmlWebpackPlugin，然后追加到配置中
+const htmlWebpackPlugins = []
+// 判断一下是否为分开打包模式
+if (process.env.MODE_ENV === 'separate') {
+  // 分开打包时是通过重复运行指定模块打包命令实现的，所以每次都是单个html文件，只要配置一个htmlPlugin
+  htmlWebpackPlugins.push(new HtmlWebpackPlugin({
+    filename: process.env.NODE_ENV === 'testing'
+      ? 'index.html'
+      : config.build.index,
+    // template: 'index.html',
+    template: config.build.htmlTemplate,
+    inject: true,
+    minify: {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeAttributeQuotes: true
+      // more options:
+      // https://github.com/kangax/html-minifier#options-quick-reference
+    },
+    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+    chunksSortMode: 'dependency'
+  }))
+} else {
+  // 一起打包时是通过多入口实现的，所以要配置多个htmlPlugin
+  for (let module of moduleToBuild) {
+    htmlWebpackPlugins.push(new HtmlWebpackPlugin({
+      filename: `${module}.html`,
+      template: `./src/modules/${module}/index.html`,
+      inject: true,
+      // 这里要指定把哪些chunks追加到html中，默认会把所有入口的chunks追加到html中，这样是不行的
+      chunks: ['vendor', 'manifest', module],
+      // filename: process.env.NODE_ENV === 'testing'
+      //   ? 'index.html'
+      //   : config.build.index,
+      // template: 'index.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency'
+    }))
+  }
+}
+// var env = config.build.env
+const env = process.env.NODE_ENV === 'testing'
+  ? require('../config/test.env')
+  : require('../config/prod.env')
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -82,8 +133,77 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       { from: 'config/user.env.js', to: '../env/user.env.js' }
     ])
-  ]
+  ].concat(htmlWebpackPlugins)
 })
+
+
+// ....判断一下是否为分开打包模式
+// if (process.env.MODE_ENV === 'separate') {
+//   // 分开打包时是通过重复运行指定模块打包命令实现的，所以每次都是单个html文件，只要配置一个htmlPlugin
+//   webpackConfig.plugins.push(new HtmlWebpackPlugin({
+//     filename: process.env.NODE_ENV === 'testing'
+//       ? 'index.html'
+//       : config.build.index,
+//     // template: 'index.html',
+//     template: config.build.htmlTemplate,
+//     inject: true,
+//     favicon: path.resolve('favicon.ico'),
+//     minify: {
+//       removeComments: true,
+//       collapseWhitespace: true,
+//       removeAttributeQuotes: true
+//       // more options:
+//       // https://github.com/kangax/html-minifier#options-quick-reference
+//     },
+//     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+//     chunksSortMode: 'dependency'
+//   }))
+// } else {
+//   // 一起打包时是通过多入口实现的，所以要配置多个htmlPlugin
+//   const moduleLi = require('./module-conf').moduleLi || []
+//   let pages = ((globalPath)=>{
+//   let htmlFiles = {},
+//     pageName;
+
+//   globalPath.forEach((pagePath)=>{
+//     var basename = path.basename(pagePath, path.extname(pagePath));
+//     pageName = basename;
+//     htmlFiles[pageName] = {};
+//     htmlFiles[pageName]['chunk'] = basename;
+//     htmlFiles[pageName]['path'] = pagePath;
+
+//   });
+//     return htmlFiles;
+//   })(moduleLi);
+
+// for (let entryName in pages) {
+//   let conf = {
+//     // 生成出来的html文件名
+//     filename: entryName + '.html',
+//     // filename: config.build.index,
+//     // 每个html的模版，这里多个页面使用同一个模版
+//     // template: pages[entryName]['path'],
+//     template: config.build.htmlTemplate,
+//     // 自动将引用插入html
+//     inject: true,
+//     favicon: path.resolve('favicon.ico'),
+//     minify: {
+//       removeComments: true,
+//       collapseWhitespace: true,
+//       removeAttributeQuotes: true
+//       // more options:
+//       // https://github.com/kangax/html-minifier#options-quick-reference
+//     },
+//     chunks: ['vendor','manifest',pages[entryName]['chunk']],
+//     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+//     chunksSortMode: 'dependency'
+//   };
+//   console.log(conf, config.build.index, 'confconfconf')
+//   /*入口文件对应html文件（配置多个，一个页面对应一个入口，通过chunks对应）*/
+//   webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
+//   }
+// }
+
 
 if (config.build.productionGzip) {
   var CompressionWebpackPlugin = require('compression-webpack-plugin')
@@ -108,6 +228,7 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
+<<<<<<< HEAD
 // let pages = ((globalPath)=>{
 //   let htmlFiles = {},
 //     pageName;
@@ -146,5 +267,8 @@ if (config.build.bundleAnalyzerReport) {
 //   /*入口文件对应html文件（配置多个，一个页面对应一个入口，通过chunks对应）*/
 //   webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 // }
+=======
+
+>>>>>>> dev-liangzhipeng
 
 module.exports = webpackConfig;
