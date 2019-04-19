@@ -25,21 +25,17 @@ var environment = (function () {
       // iotserver: 'http://developer-dev.msmartlife.com/ucenterWeb/v1/iotserver',
       iotserver: 'http://developer-us.msmartlife.com/abroadWeb/v1/iotserver',
       iotmj: '/mj'
-    }
-  // }
-  //项目目录
-  var _pathName = '/';
-
-  return {
-    securityKey: 'mideaiottest_sso_token',// 前端秘钥
-    index: 'page.html', // 登录后跳转的系统
-    appId: 'MFRAMEWORK_DEMO',
-    // 基础框架配置
-    iotserver: {
-      APPLICATION_NAME: _application.iotserver,
-      MJAPP_NAME: _application.iotmj
-    }
-  }
+    };
+    return {
+      securityKey: 'mideaiottest_sso_token', // 前端秘钥
+      index: 'page.html', // 登录后跳转的系统
+      appId: 'MFRAMEWORK_DEMO',
+      // 基础框架配置
+      iotserver: {
+        APPLICATION_NAME: _application.iotserver,
+        MJAPP_NAME: _application.iotmj
+      }
+    };
 })();
 
 window.environment = environment;

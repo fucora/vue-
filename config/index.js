@@ -1,14 +1,23 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-
+const MODULE = process.env.MODULE_ENV || 'undefined'
+// 入口模板路径
+const htmlTemplate =  `./src/modules/${MODULE}/index.html`
+// const htmlTemplate =  path.resolve(__dirname, `../src/modules/${MODULE}/index.html`)
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    // index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../dist', MODULE, 'index.html'),
+    // 这里判断一下打包的模式，如果是分开打包，要把成果物放到以模块命名的文件夹中
+    assetsRoot: process.env.MODE_ENV === 'separate' ? path.resolve(__dirname, '../dist', MODULE) : path.resolve(__dirname, '../dist'),
+    // assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    // assetsPublicPath: '/',
+    assetsPublicPath: '',
     productionSourceMap: false,
+    // 加入html入口
+    htmlTemplate: htmlTemplate,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
     // Before setting to `true`, make sure to:

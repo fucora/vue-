@@ -1,18 +1,9 @@
 <template>
   <div class="page-header">
     <div class="page-header-container center-wrapper clearfix">
-      <a
-        class="logo-wrapper pull-left"
-        @click="gotHome"
-      >
-        <img
-          class="logo"
-          src="../../../assets/img/logo@2x.png"
-          alt="图片不存在"
-          width="43"
-          height="29"
-        >
-        <span style="fontSize:18px">开发者中心</span>
+      <a class="logo-wrapper pull-left">
+        <img class="logo" src="../../../assets/img/logo@2x.png" alt="图片不存在" width="43" height="29">
+        <span style="fontSize:18px">美的开放平台</span>
       </a>
       <div class="page-nav pull-left">
         <div
@@ -20,148 +11,41 @@
           :class="{'nav-active': navActive === pItem.name}"
           v-for="(pItem, index) in hNavData"
           :key="index"
-          @click="handleNavClick(pItem)"
         >
-          <span
+          <a
             class="level-nav-item"
             style="display:inline-block;padding: 0 28px"
-          >{{pItem.name}}</span>
+            href="javascript:void(0);"
+            @click="gotoMoudel(pItem)"
+          >{{pItem.name}}</a>
         </div>
       </div>
-      <!-- @mouseleave="isShow = false" -->
-      <div
-        class="user-info-wrapper pull-right"
-        v-if="(nickName||mobile)&&getToken"
-        @mouseleave="mouseleave"
-      >
-        <!-- @click.stop="isShow = !isShow" -->
-        <div
-          class="user-info-content"
-          @mouseenter="enter"
-        >
-          <span v-if="nickName">
-            <span class="user-info">{{nickName}}</span>
-            <!-- <span class="user-info" v-if="roleName">({{roleName}})</span> -->
-          </span>
-          <span v-else>
-            <span class="user-info">{{mobile}}</span>
-            <!-- <span class="user-info" v-if="roleName">({{roleName}})</span> -->
-          </span>
-          <span
-            class="icon-down"
-            :class="{rotate: isShow}"
-          ></span>
-        </div>
-        <span class="icon-bell"></span>
-        <transition name="slideInfo">
-          <!-- v-show="isShow" -->
-          <div
-            class="hide-user-info"
-            v-show="isShow"
-            @click.stop
-            @mouseenter="sover"
-            @mouseleave="sout"
-          >
-            <ul class="user-info-list">
-              <li class="list-item">
-                <a
-                  href="javascript:void(0)"
-                  @click="goToInfo"
-                >修改用户密码</a>
-              </li>
-              <li
-                class="list-item"
-                @click="handleLogout"
-              >
-                <a href="javascript:void(0)">退出</a>
-              </li>
-            </ul>
-          </div>
-        </transition>
+
+    <div class="user-info-wrapper pull-right">
+
+      <el-badge :value="12" class="item">
+        <span class="icon-bell" @click="gotoMoudel(userInfoPath)"></span>
+      </el-badge>
+
+      <el-dropdown >
+          <span class="icon-bell" style="margin-top: 5px;" ></span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :divided="item.flag" :command="item.name" v-for="(item, index) in userList" :key="index">
+              <a
+                class="level-nav-item"
+                style="display:inline-block;padding: 0 28px"
+                href="javascript:void(0);" @click="gotoMoudel(item)" target="_blank"
+              >{{item.name}}</a>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+      </el-dropdown>
       </div>
     </div>
-    <el-dialog
-      title="修改用户密码"
-      :visible.sync="dialogVisible"
-      :append-to-body="true"
-      width="30%"
-      :before-close="handleClose"
-    >
-      <div>
-        <!-- <el-input
-          type="text"
-          v-model="password"
-          @blur="passworInput"
-        /> -->
-        <el-form
-          class="register-form"
-          ref="regForm"
-          :model="registerData"
-          :rules="registerRules"
-        >
-          <el-form-item>
-            <input
-              style="display:none"
-              type="password"
-              name=""
-              id=""
-            >
-          </el-form-item>
-          <el-form-item prop="password">
-            <input
-              type="password"
-              style="display: none;"
-            >
-            <el-input
-              onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
-              onpaste="return false"
-              oncontextmenu="return false"
-              oncopy="return false"
-              oncut="return false"
-              v-model.trim="registerData.password"
-              onfocus="this.type='password'"
-              type="text"
-              autocomplete="off"
-              placeholder="设置密码：6-16位数字字母组合"
-            ></el-input>
-
-            <!-- <input  autocomplete="new-password" onfocus="this.type='password'" type="text" placeholder="密码" value=""> -->
-          </el-form-item>
-          <el-form-item prop="confirmPsw">
-            <el-input
-              onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
-              onpaste="return false"
-              oncontextmenu="return false"
-              oncopy="return false"
-              oncut="return false"
-              v-model.trim="registerData.confirmPsw"
-              onfocus="this.type='password'"
-              type="text"
-              auto-complete="off"
-              autocomplete="off"
-              placeholder="确认密码"
-            ></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-      <span
-        slot="footer"
-        class="dialog-footer"
-      >
-        <el-button @click="handleClose">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="save"
-        >确 定</el-button>
-      </span>
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
-import ls from '@/utils/storage/local_storage';
-import { Encrypt } from '@/modules/index/views/login/crypto';
+// import ls from '@/utils/storage/local_storage';
 // import { logout } from '@/common/api/main';
 import { getToken } from '@/utils/auth'; // 验权
 export default {
@@ -172,51 +56,24 @@ export default {
     }
   },
   data() {
-    var validatePsw = (rule, value, callback) => {
-      var regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        if (!regPsw.test(value)) {
-          callback(new Error('请输入长度为6-16为数字字母组合'));
-        } else {
-          if (this.registerData.confirmPsw !== '') {
-            this.$refs['regForm'].validateField('confirmPsw');
-          }
-          callback();
-        }
-      }
-    };
-    var validateCheckPsw = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.registerData.password) {
-        callback(new Error('两次输入密码不一致'));
-      } else {
-        callback();
-      }
-    };
     return {
-      registerRules: {
-        password: [{ validator: validatePsw, trigger: 'blur' }],
-        confirmPsw: [{ validator: validateCheckPsw, trigger: 'blur' }]
-      },
-      registerData: {
-        password: '',
-        confirmPsw: ''
-      },
-      dialogVisible: false,
-      password: '',
-
       getToken: getToken(),
-      nickName: '', // 昵称
-      roleName: '', // 角色
-      mobile: '',
-      isShow: false,
       hNavData: [
-        { name: '我的产品', path: '/product/myProducts' }
-        // { name: '开发指引', path: '/developGuideTop' },
-        // { name: '下载中心', path: '/downloadCenter' }
+        { name: '智能硬件', path: '../IntelligentHardware/index.html#/' },
+        { name: '应用服务', path: '../applicationService/index.html#/' },
+        { name: '数据中心', path: '../mineDataCenter/index.html#/' },
+        { name: '运营中心', path: '..//operationCenter/index.html#/' },
+        { name: '文档中心', path: '../documentCenter/index.html#/' }
+      ],
+      userInfoPath: { name: '我的消息', flag: false, path: '../index/index.html#/product/userInfo?activeName=comC' },
+      userList: [
+        { name: '用户信息', flag: false, path: '../index/index.html#/product/userInfo?activeName=comA' },
+        { name: '企业信息', flag: false, path: '../index/index.html#/product/userInfo?activeName=comB' },
+        // { name: '我的产品', flag: false },
+        { name: '我的消息', flag: false, path: '../index/index.html#/product/userInfo?activeName=comC' },
+        { name: '平台公告', flag: false, path: '../index/index.html#/product/userInfo?activeName=comD' },
+        { name: '常见问题', flag: false, path: '../index/index.html#/product/userInfo?activeName=comE' },
+        { name: '注销', flag: true, path: '/login/index.html#/login' }
       ],
       navActive: this.active
     };
@@ -225,170 +82,78 @@ export default {
     active(nVal) {
       this.navActive = nVal;
     },
-    '$route.path': {
-      handler: function(nVal, oVal) {
-        if (nVal === '/developGuideTop/developGuide/guide') {
-          // this.navActive = '开发指引';
-          this.handleNavClick({ name: '开发指引', path: '/developGuideTop' });
-        }
-      },
-      deep: true,
-      immediate: true
-    },
+    // '$route.path': {
+    //   handler: function(nVal, oVal) {
+    //     if (nVal === '/developGuideTop/developGuide/guide') {
+    //       // this.navActive = '开发指引';
+    //       this.handleNavClick({ name: '开发指引', path: '/developGuideTop' });
+    //     }
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // },
     '$store.getters.userInfo': {
       handler: function(val, oldVal) {
-        this.handleName();
+        // this.handleName();
       },
       deep: true,
       immediate: true
     }
   },
   methods: {
-    handleName() {
-      let tempUserInfo = this.$store.getters.userInfo;
-      let lsUserInfo = JSON.parse(ls.getItem('userInfo'));
-      // debugger;
-      if (
-        (tempUserInfo && tempUserInfo.email) ||
-        (lsUserInfo && lsUserInfo.email)
-      ) {
-        this.mobile = tempUserInfo.email || lsUserInfo.email;
-        // debugger;
-      }
-      if (
-        (tempUserInfo && tempUserInfo.roleName) ||
-        (lsUserInfo && lsUserInfo.roleName)
-      ) {
-        this.roleName = tempUserInfo.roleName || lsUserInfo.roleName;
-        // debugger;
-      }
-      if (
-        (tempUserInfo && tempUserInfo.nickName) ||
-        (lsUserInfo && lsUserInfo.nickName)
-      ) {
-        this.nickName = tempUserInfo.nickName || lsUserInfo.nickName;
-        // debugger;
-      }
-    },
-    // 点击头部导航
-    handleNavClick(pItem) {
-      this.navActive = pItem.name;
-      this.$router.push({ path: pItem.path });
-    },
-
-    // 跳转开发者信息
-    goToInfo() {
-      this.dialogVisible = true;
-      // this.$router.push({ path: '/info' });
-    },
-    handleClose() {
-      this.dialogVisible = false;
-      this.registerData.password = '';
-      this.registerData.confirmPsw = '';
-    },
-    passworInput(e) {
-      // console.log(e.target.value);
-      //  let regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-      // if (!regPsw.test(e.target.value)) {
-      //     this.$message({
-      //     type: 'warning',
-      //     message: '请输入长度为6-16为数字字母组合'
-      //   });
-      // }
-      // debugger;
-    },
-    save() {
-      if (!this.registerData.password) {
-        this.$message({
-          type: 'warning',
-          message: '不能为空'
-        });
-        return;
-      }
-      let regPsw = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-      if (!regPsw.test(this.registerData.password)) {
-        this.$message({
-          type: 'warning',
-          message: '请输入长度为6-16为数字字母组合'
-        });
-        return;
-      }
-
-      this.$refs['regForm'] &&
-        this.$refs['regForm'].validate(valid => {
-          if (!valid) {
-            return;
-          }
-
-          let md5Pasword = Encrypt(this.registerData.password);
-          console.log(md5Pasword);
-          this.$store
-            .dispatch('updatedPassword', { password: md5Pasword })
-            .then(res => {
-              if (res.code === 0) {
-                this.$message({
-                  type: 'success',
-                  message: res.message
-                });
-                // console.log(md5Pasword);
-                this.dialogVisible = false;
-                this.registerData.password = '';
-                this.registerData.confirmPsw = '';
-                this.handleLogout();
-              }
-            })
-            .catch(err => {
-              this.$message({
-                type: 'error',
-                message: err.message
-              });
-            });
-        });
-    },
-    enter() {
-      this.isShow = true;
-    },
-    mouseleave() {
-      this._timer = setTimeout(() => {
-        this.isShow = false;
-      }, 150);
-    },
-    sover() {
-      // 清除定时器不然定时器继续执行
-      clearTimeout(this._timer);
-    },
-    sout() {
-      this.isShow = false;
-    },
-
-    // 跳转介绍页
-    gotHome() {
-      this.$router.push({ path: '/platformIntroduction' });
-    },
-    // 退出登陆
-    async handleLogout() {
-      debugger;
-      try {
-        await this.$store.dispatch('LogOut');
-        this.$router.push({ name: '登陆' });
-      } catch (e) {}
-      // logout().then(res => {
-      //   console.log(res);
-      // });
+  gotoMoudel (val) {
+    if (val.name === '注销') {
+      this.toLogin(val);
+    } else {
+      this.$emit('moudelChange', val);
     }
+  },
+  async toLogin (val) {
+    await this.$store.dispatch('LogOut');
+    window.location.href = window.location.origin + val.path;
+  }
+    // handleName() {
+    //   let tempUserInfo = this.$store.getters.userInfo;
+    //   let lsUserInfo = JSON.parse(ls.getItem('userInfo'));
+    //   // debugger;
+    //   if (
+    //     (tempUserInfo && tempUserInfo.email) ||
+    //     (lsUserInfo && lsUserInfo.email)
+    //   ) {
+    //     this.mobile = tempUserInfo.email || lsUserInfo.email;
+    //     // debugger;
+    //   }
+    //   if (
+    //     (tempUserInfo && tempUserInfo.roleName) ||
+    //     (lsUserInfo && lsUserInfo.roleName)
+    //   ) {
+    //     this.roleName = tempUserInfo.roleName || lsUserInfo.roleName;
+    //     // debugger;
+    //   }
+    //   if (
+    //     (tempUserInfo && tempUserInfo.nickName) ||
+    //     (lsUserInfo && lsUserInfo.nickName)
+    //   ) {
+    //     this.nickName = tempUserInfo.nickName || lsUserInfo.nickName;
+    //     // debugger;
+    //   }
+    // },
   }
 };
 </script>
 
 <style lang="less" scoped>
 .page-header {
-  position: fixed;
+  // position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background: #1d233c;
   z-index: 2000;
   // 覆盖
+}
+.el-badge{
+  margin-top: -10px;
 }
 .page-header-container {
   height: 65px;
@@ -413,8 +178,13 @@ export default {
   vertical-align: middle;
 }
 .user-info-wrapper {
-  position: relative;
-  height: 65px;
+  float: right;
+  margin-top: 10px;
+  // position: relative;
+  // height: 65px;
+  .el-dropdown {
+    margin-left: 30px;
+  }
 }
 .user-info-content {
   line-height: 65px;
@@ -446,12 +216,14 @@ export default {
   }
 }
 .icon-bell {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  width: 14px;
-  height: 18px;
-  margin-top: -9px;
+  // position: absolute;
+  // top: 70%;
+  // right: 0;
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  padding-top: 5px;
+  // margin-top: 9px;
   background: url("../../../assets/img/msg@2x.png") no-repeat center center;
   background-size: cover;
 }
