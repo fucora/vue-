@@ -80,7 +80,7 @@ var webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       },
-      { from: 'config/user.env.js', to: 'env/user.env.js' }
+      { from: 'config/user.env.js', to: '../env/user.env.js' }
     ])
   ]
 })
